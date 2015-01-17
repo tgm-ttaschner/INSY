@@ -2,8 +2,8 @@ package output;
 
 public class WriterFactory {
 
-	public void WriterFactory(String type) {
-
+	public WriterFactory(String type) {
+		
 	}
 
 }

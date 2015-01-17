@@ -1,5 +1,6 @@
 package output.format;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Process {
@@ -11,7 +12,7 @@ public class Process {
 	private ResultSet resultSet;
 
 	public Process(ResultSet resultSet) {
-
+		this.resultSet = resultSet;
 	}
 
 	public String readLine() {

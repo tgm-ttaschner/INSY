@@ -1,13 +1,14 @@
 package output;
 
+import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
-public class FileWriter extends WriterFactory implements Writer {
+public class FileWriter implements Writer {
 
 	private RandomAccessFile file;
 
-	public FileWriter(String filename) {
-		
+	public FileWriter(String filename) throws FileNotFoundException {
+		file = new RandomAccessFile(filename, "w");
 	}
 
 
