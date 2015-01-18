@@ -7,23 +7,70 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.mysql.jdbc.PreparedStatement;
-
 public class MySQLConnection {
-	
+
+	private String query;
+
+	private String output;
+
+	private String seperator;
+
+	private int columncount;
+
 	private Statement statement;
 
 	private Connection connection;
 
 	private ResultSet resultSet;
-	
+
 	private HashMap<String, String> args;
 
-	public MySQLConnection(HashMap<String, String> arguments) throws ClassNotFoundException, SQLException {
-		this.setArgs(arguments);
-		Class.forName(arguments.get("jdbc"));
-		
-		connection = DriverManager.getConnection(arguments.get("jdbc mysql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
+	public MySQLConnection(HashMap<String, String> arguments) throws SQLException	{
+		this.args = arguments;
+	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public String getOutput() throws IllegalArgumentException {
+		if (output != null)	{
+			return output;
+		} else {
+			throw new IllegalArgumentException("Ungueltiger Ausgabetyp!");
+		}
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
+
+	public String getSeperator() {
+		return seperator;
+	}
+
+	public void setSeperator(String seperator) {
+		this.seperator = seperator;
+	}
+
+	public int getColumncount() {
+		return columncount;
+	}
+
+	public void setColumncount(int columncount) {
+		this.columncount = columncount;
+	}
+
+	public Statement getStatement() {
+		return statement;
+	}
+
+	public void setStatement(Statement statement) {
+		this.statement = statement;
 	}
 
 	public Connection getConnection() {
@@ -32,20 +79,6 @@ public class MySQLConnection {
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
-	}
-	
-	/**
-	 * @return the args
-	 */
-	public HashMap<String, String> getArgs() {
-		return args;
-	}
-
-	/**
-	 * @param args the args to set
-	 */
-	public void setArgs(HashMap<String, String> args) {
-		this.args = args;
 	}
 
 	public ResultSet getResultSet() {
@@ -56,28 +89,55 @@ public class MySQLConnection {
 		this.resultSet = resultSet;
 	}
 
-	/**
-	 * @return the statement
-	 */
-	public Statement getStatement() {
-		return statement;
+	public HashMap<String, String> getArgs() {
+		return args;
 	}
 
-	/**
-	 * @param statement the statement to set
-	 */
-	public void setStatement(PreparedStatement statement) {
-		this.statement = statement;
+	public void setArgs(HashMap<String, String> args) {
+		this.args = args;
 	}
 
-	public ResultSet connect() throws SQLException {
+	public void connect() throws SQLException, ClassNotFoundException {
+
+		Class.forName(args.get("jdbc"));
+
+		connection = DriverManager.getConnection(args.get("jdbc mysql") + args.get("hostname") + "/" + args.get("database"), args.get("username"), args.get("password"));
+	}
+
+	public void query() throws SQLException	{
+		query = "SELECT ";
+
+		query += args.get("rows") + " FROM ";
+
+		query += args.get("table") + " ";
+
+		if (args.containsKey("where") && args.get("where") != null)	{
+			query += "WHERE " + args.get("where") + " ";
+		}
+
+		if (args.containsKey("sort") && args.get("sort") != null)	{
+			query += "ORDER BY " + args.get("sort") + " ";
+
+			if (args.containsKey("sortdir") && args.get("sortdir") != null)	{
+				query += args.get("sortdir") + " ";
+			}
+		}
+
+		query += ";";
+		
 		statement = connection.createStatement();
-		
-		resultSet = statement.executeQuery("SELECT * FROM film order by titel;");
-		
-		return resultSet;
+		resultSet = statement.executeQuery(query);
+
+		if (args.get("rows").equals("*"))	{
+			columncount = resultSet.getMetaData().getColumnCount();
+		} else {
+			columncount = args.get("rows").split(",").length;
+		}
+
+		seperator = args.get("seperator");
+		output = args.get("output");
 	}
-	
+
 	public void disconnect() throws SQLException {
 		connection.close();
 		statement.close();
