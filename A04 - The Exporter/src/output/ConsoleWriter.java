@@ -1,20 +1,13 @@
 package output;
 
-public class ConsoleWriter extends WriterFactory implements Writer {
+import java.util.ArrayList;
 
+public class ConsoleWriter implements Writer {
 
-	public ConsoleWriter(String type) {
-		super(type);
-		// TODO Auto-generated constructor stub
+	@Override
+	public void write(ArrayList<String> results) {
+		for (int i = 0; i < results.size(); i++)	{
+			System.out.println(results.get(i));
+		}
 	}
-
-	/**
-	 * @see output.Writer#write(java.lang.String)
-	 * 
-	 *  
-	 */
-	public void write(String line) {
-
-	}
-
 }
