@@ -1,10 +1,6 @@
 package connection;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class MySQLConnection {
@@ -21,7 +17,7 @@ public class MySQLConnection {
 
 	private Connection connection;
 
-	private ResultSet resultSet;
+	public ResultSet resultSet;
 
 	private HashMap<String, String> args;
 
@@ -81,7 +77,7 @@ public class MySQLConnection {
 		this.connection = connection;
 	}
 
-	public ResultSet getResultSet() {
+	public ResultSet getResultSet() throws SQLException {
 		return resultSet;
 	}
 
@@ -119,7 +115,7 @@ public class MySQLConnection {
 			query += "ORDER BY " + args.get("sort") + " ";
 
 			if (args.containsKey("sortdir") && args.get("sortdir") != null)	{
-				query += args.get("sortdir") + " ";
+				query += args.get("sortdir");
 			}
 		}
 
