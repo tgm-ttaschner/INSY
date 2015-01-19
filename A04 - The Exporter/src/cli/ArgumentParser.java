@@ -1,41 +1,119 @@
 package cli;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.commons.cli.*;
+import org.kohsuke.args4j.*;
 
 /**
- * @author Patrick Malik
  * @author Thomas Taschner
- * @version 08.01.2015
+ * @version 13.1.2015
  */
 public class ArgumentParser {
-	
-	public static Options options = new Options();
-	
-	private static HashMap<String, String> arguments;
-	
-	@SuppressWarnings("static-access")
-	public static HashMap<String, String> parseArguments(String[] args) throws IllegalArgumentException {
-		
-		ArrayList<Option> option = new ArrayList<Option>();
-		
-		option.add(OptionBuilder.hasArg().isRequired().withDescription("Der Hostname bzw. die IP Adresse des DBMS").withArgName("hostname").create("h"));
-		option.add(OptionBuilder.hasArg().isRequired().withDescription("Der Benutzername der beim Verbinden mit dem DBMS verwendet werden soll").withArgName("username").create("u"));
-		option.add(OptionBuilder.hasArg().isRequired().withDescription("Das Passwort der beim Verbinden mit dem DBMS verwendet werden soll").withArgName("hostname").create("p"));
-		option.add(OptionBuilder.hasArg().isRequired().withDescription("Das Passwort der beim Verbinden mit dem DBMS verwendet werden soll").withArgName("hostname").create("p"));
-		
-		
-		return arguments;
 
+	private HashMap<String, String> arguments;
+
+	@Option(name="-h") private String host = "localhost";
+
+	@Option(name="-u") private String username = System.getProperty("user.name");
+
+	@Option(name="-p") private String password;
+
+	@Option(name="-d", required = true) private String database;
+
+	@Option(name="-s") private String sortby = null;
+
+	@Option(name="-r", depends = {"-s"}) private String sortdir;
+
+	@Option(name="-w") private String where_condition;
+
+	@Option(name="-t") private String seperator = ";";
+
+	@Option(name="-f", required = true) private String rows;
+
+	@Option(name="-o") private String output;
+
+	@Option(name="-T", required = true) private String tablename;
+
+	public ArgumentParser(String[] args)	{
+		arguments = new HashMap<String, String>();
+		
+		try {
+			CmdLineParser cmdLineParser = new CmdLineParser(this);
+			
+			System.out.println(tablename);
+			
+			cmdLineParser.parseArgument(args);
+
+			arguments.put("jdbc", "com.mysql.jdbc.Driver");
+			arguments.put("jdbc mysql", "jdbc:mysql://");
+			arguments.put("hostname", host);
+			arguments.put("database", database);
+			arguments.put("username", username);
+			arguments.put("password", password);
+			arguments.put("rows", rows);
+			arguments.put("table", tablename);
+			arguments.put("where", where_condition);
+			arguments.put("sort", sortby);
+			arguments.put("sortdir", sortdir);
+			arguments.put("seperator", seperator);
+			arguments.put("output", output);
+
+		} catch (CmdLineException e) {
+			
+			e.printStackTrace();
+
+			String error = "";
+
+			if (host.equals("localhost"))	{
+				error += "Es wurde localhost als Host oder gar kein Host Parameter angegeben. \n";
+			}
+
+			if (database == null)	{
+				error += "Es wurde kein Datenbankname angegeben. \n";
+			}
+
+			if (username.equals(System.getProperty("user.name")))	{
+				error += "Es wurde " + System.getProperty("user.name") + " als Benutzername oder gar kein Benutzname angegeben. \n";
+			}
+
+			if (password == null)	{
+				error += "Es wurde kein Passwort angegeben, zur Anmeldung wird kein Passwort verwendet. \n";
+			}
+
+			if (rows == null)	{
+				error += "Es wurde keine anzuzeigende Spalte angegeben, geben Sie * ein, um alle Spalten ausgeben zu lassen. \n";
+			}
+
+			if (tablename == null)	{
+				error += "Es wurde keine Tabelle angegeben. \n";
+			}
+
+			if (where_condition == null)	{
+				error += "Es wurde keine WHERE Bedingung angegeben. \n";
+			}
+
+			if (sortby == null)	{
+				error += "Es wurde keine Spalte angegeben nach der sortiert werden soll. \n";
+			}
+
+			if (sortdir == null)	{
+				error += "Es wurde keine Sortierrichtung angegeben, es wird aufsteigend sortiert. \n";
+			}
+
+			if (seperator == null)	{
+				error += "Es wurde kein Trennzeichen angegeben, es wird ';' als Trennzeichen verwendet. \n";
+			}
+
+			if (output == null)	{
+				error += "Es wurde keine Ausgabemethode definiert, die Ausgabe erfolgt auf der Konsole. \n";
+			}
+
+			System.err.println(error);
+		}
 	}
-
-	/**
-	 * Static method which prints out a help message onto the console.
-	 */
-	public static void printHelp() {
-		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("RMI", ArgumentParser.options);
+	
+	public HashMap<String, String> getArguments()	{
+		return arguments;
+		
 	}
 }

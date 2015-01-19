@@ -17,12 +17,15 @@ public class MySQLConnection {
 
 	private Connection connection;
 
-	public ResultSet resultSet;
+	private ResultSet resultSet;
 
-	private HashMap<String, String> args;
+	private HashMap<String, String> arguments;
 
 	public MySQLConnection(HashMap<String, String> arguments) throws SQLException	{
-		this.args = arguments;
+		
+		//arguments = new HashMap<String, String>();
+		
+		this.arguments = arguments;
 	}
 
 	public String getQuery() {
@@ -86,36 +89,38 @@ public class MySQLConnection {
 	}
 
 	public HashMap<String, String> getArgs() {
-		return args;
+		return arguments;
 	}
 
 	public void setArgs(HashMap<String, String> args) {
-		this.args = args;
+		this.arguments = args;
 	}
 
 	public void connect() throws SQLException, ClassNotFoundException {
 
-		Class.forName(args.get("jdbc"));
+		Class.forName(arguments.get("jdbc"));
 
-		connection = DriverManager.getConnection(args.get("jdbc mysql") + args.get("hostname") + "/" + args.get("database"), args.get("username"), args.get("password"));
+		connection = DriverManager.getConnection(arguments.get("jdbc mysql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
 	}
 
 	public void query() throws SQLException	{
 		query = "SELECT ";
+		
+		System.out.println(arguments.get("rows"));
 
-		query += args.get("rows") + " FROM ";
+		query += arguments.get("rows") + " FROM ";
 
-		query += args.get("table") + " ";
+		query += arguments.get("table") + " ";
 
-		if (args.containsKey("where") && args.get("where") != null)	{
-			query += "WHERE " + args.get("where") + " ";
+		if (arguments.containsKey("where") && arguments.get("where") != null)	{
+			query += "WHERE " + arguments.get("where") + " ";
 		}
 
-		if (args.containsKey("sort") && args.get("sort") != null)	{
-			query += "ORDER BY " + args.get("sort") + " ";
+		if (arguments.containsKey("sort") && arguments.get("sort") != null)	{
+			query += "ORDER BY " + arguments.get("sort") + " ";
 
-			if (args.containsKey("sortdir") && args.get("sortdir") != null)	{
-				query += args.get("sortdir");
+			if (arguments.containsKey("sortdir") && arguments.get("sortdir") != null)	{
+				query += arguments.get("sortdir");
 			}
 		}
 
@@ -124,14 +129,14 @@ public class MySQLConnection {
 		statement = connection.createStatement();
 		resultSet = statement.executeQuery(query);
 
-		if (args.get("rows").equals("*"))	{
+		if (arguments.get("rows").equals("*"))	{
 			columncount = resultSet.getMetaData().getColumnCount();
 		} else {
-			columncount = args.get("rows").split(",").length;
+			columncount = arguments.get("rows").split(",").length;
 		}
 
-		seperator = args.get("seperator");
-		output = args.get("output");
+		seperator = arguments.get("seperator");
+		output = arguments.get("output");
 	}
 
 	public void disconnect() throws SQLException {
