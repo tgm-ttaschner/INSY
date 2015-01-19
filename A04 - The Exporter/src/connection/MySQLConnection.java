@@ -22,9 +22,6 @@ public class MySQLConnection {
 	private HashMap<String, String> arguments;
 
 	public MySQLConnection(HashMap<String, String> arguments) throws SQLException	{
-		
-		//arguments = new HashMap<String, String>();
-		
 		this.arguments = arguments;
 	}
 
@@ -105,8 +102,6 @@ public class MySQLConnection {
 
 	public void query() throws SQLException	{
 		query = "SELECT ";
-		
-		System.out.println(arguments.get("rows"));
 
 		query += arguments.get("rows") + " FROM ";
 

@@ -40,8 +40,6 @@ public class ArgumentParser {
 		try {
 			CmdLineParser cmdLineParser = new CmdLineParser(this);
 			
-			System.out.println(tablename);
-			
 			cmdLineParser.parseArgument(args);
 
 			arguments.put("jdbc", "com.mysql.jdbc.Driver");
