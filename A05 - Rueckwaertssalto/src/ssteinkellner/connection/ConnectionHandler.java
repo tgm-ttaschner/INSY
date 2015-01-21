@@ -82,7 +82,7 @@ public class ConnectionHandler {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch(Exception ex) {
 			Controller.getOutput().printError("Can't find Database driver class!");
-			Controller.exit();
+			Controller.exit(1);
 		}
 
 		try {
@@ -90,7 +90,7 @@ public class ConnectionHandler {
 			Controller.getOutput().printLine("Successfully connected to " + database + " on " + host);
 		} catch(SQLException ex) {
 			Controller.getOutput().printError("DB connection error!");
-			Controller.exit();
+			Controller.exit(1);
 		}
 	}
 	
