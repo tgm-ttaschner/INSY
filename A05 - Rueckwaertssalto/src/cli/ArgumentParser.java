@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.kohsuke.args4j.*;
 
-import ssteinkellner.Controller;
+import run.Controller;
 
 /**
  * @author Thomas Taschner

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import ssteinkellner.Controller;
+import run.Controller;
 
 /**
  * eine klasse, die fuer das auf/abbauen von verbindungen zustaendig ist.
