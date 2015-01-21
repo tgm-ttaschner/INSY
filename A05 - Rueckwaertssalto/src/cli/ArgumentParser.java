@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.kohsuke.args4j.*;
 
+import ssteinkellner.Controller;
+
 /**
  * @author Thomas Taschner
  * @version 19.01.2015
@@ -141,6 +143,6 @@ public class ArgumentParser {
 			error += "Es wurde die Konsole aös Ausgabemethode definiert oder gar keine, die Ausgabe erfolgt auf der Konsole. \n";
 		}
 
-		System.err.println(error);
+		Controller.getOutput().printError(error);
 	}
 }
