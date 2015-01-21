@@ -1,4 +1,4 @@
-package ssteinkellner;
+package run;
 
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
 
 /**
- * hauptklasse, die alle objekte erzeugt und verknuepft
+ *lasse, die alle zur verbindung notwendigen objekte erzeugt und verknuepft, sowie das logfile erstellt
  * @author SSteinkellner
  * @version 2015.01.21
  */
