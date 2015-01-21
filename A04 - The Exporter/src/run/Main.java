@@ -23,7 +23,7 @@ import utils.EscapeAsterisk;
  * Sollte etwas schief laufen, so wird ein entsprechender Hilfetext ausgegeben.
  */
 public class Main {
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, FileNotFoundException, IllegalArgumentException {
+	public static void main(String[] args) {
 
 		try {
 			HashMap<String, String> arguments = new HashMap<String, String>();

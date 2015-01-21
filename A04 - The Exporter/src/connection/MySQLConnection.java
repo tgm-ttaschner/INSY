@@ -157,7 +157,7 @@ public class MySQLConnection {
 		}
 
 		query += ";";
-		
+
 		statement = connection.createStatement();
 		resultSet = statement.executeQuery(query);
 
@@ -178,9 +178,9 @@ public class MySQLConnection {
 	 * 
 	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
 	 */
-	public void disconnect() throws SQLException {
-		connection.close();
-		statement.close();
+	public void disconnect() throws SQLException {	
 		resultSet.close();
+		statement.close();
+		connection.close();
 	}
 }
