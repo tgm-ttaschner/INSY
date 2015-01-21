@@ -10,7 +10,7 @@ import ssteinkellner.Controller;
  * eine klasse, die fuer das auf/abbauen von verbindungen zustaendig ist.
  * es gibt maximal eine connection.
  * @author SSteinkellner
- * @version 2014.12.30
+ * @version 2015.01.21
  */
 public class ConnectionHandler {
 	private Connection connection;

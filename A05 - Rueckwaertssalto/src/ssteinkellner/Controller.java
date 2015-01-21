@@ -1,43 +1,40 @@
 package ssteinkellner;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 import ssteinkellner.connection.ConnectionHandler;
-import ssteinkellner.connection.InjectionSafetyException;
 import ssteinkellner.connection.UserCache;
-import ssteinkellner.output.ConsoleWriter;
+//import ssteinkellner.output.DebugWriter;
 import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
-import ssteinkellner.tools.ArrayTools;
-import ssteinkellner.tools.DBTools;
-import ssteinkellner.tools.ListTools;
 
 /**
  * hauptklasse, die alle objekte erzeugt und verknuepft
  * @author SSteinkellner
- * @version 2014.12.30
+ * @version 2015.01.21
  */
 public class Controller {
-	private static Writer output, content;
+	private static Writer output;
 	private static ConnectionHandler connectionhandler;
 	private UserCache usercache;
 	
-	public Controller(){
-		content = new FileWriter("dbcontent.txt");
-//		output = new FileWriter("log.txt");
-		output = new ConsoleWriter();
+	public Controller(Map<String, String> arguments){
+		output = new FileWriter(arguments.get("LogFile"));
+//		output = new DebugWriter();
+		
 		usercache = new UserCache();
 		connectionhandler = new ConnectionHandler(usercache);
 
-		connectionhandler.setHost("localhost");
-		connectionhandler.setDatabase("premiere");
-		usercache.setUser("insy4");
-		usercache.setPassword("blabla");
+		connectionhandler.setHost(arguments.get("hostname"));
+		connectionhandler.setDatabase(arguments.get("database"));
+		usercache.setUser(arguments.get("username"));
+		usercache.setPassword(arguments.get("password"));
+		arguments.remove("password");
+		/*
+		 * falls plugins zukuenftig moeglich waeren, ist es sinnvoll,
+		 * das passwort aus den arguments zu entfernen, bevor man
+		 * die arguments an das plugin weitergibt (falls es auch welche benoetigt)
+		 */
 	}
 	
 	/**
