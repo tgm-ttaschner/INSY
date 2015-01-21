@@ -28,26 +28,8 @@ public class ArgumentParser {
 	@Option(name="-d", required = true)
 	private String database;
 
-	@Option(name="-s")
-	private String sortby;
-
-	@Option(name="-r", depends = {"-s"})
-	private String sortdir = "ASC";
-
-	@Option(name="-w")
-	private String where_condition;
-
-	@Option(name="-t")
-	private String seperator = ";";
-
-	@Option(name="-f", required = true)
-	private String rows;
-
 	@Option(name="-o")
 	private String output = "console";
-
-	@Option(name="-T", required = true)
-	private String tablename;
 
 	/**
 	 * @param args main Arguments which will be parsed
@@ -69,12 +51,6 @@ public class ArgumentParser {
 			arguments.put("database", database);
 			arguments.put("username", username);
 			arguments.put("password", password);
-			arguments.put("rows", rows);
-			arguments.put("table", tablename);
-			arguments.put("where", where_condition);
-			arguments.put("sort", sortby);
-			arguments.put("sortdir", sortdir);
-			arguments.put("seperator", seperator);
 			arguments.put("output", output);
 
 		} catch (CmdLineException e) {
@@ -113,30 +89,6 @@ public class ArgumentParser {
 
 		if (password == null)	{
 			error += "Es wurde kein Passwort angegeben, zur Anmeldung wird kein Passwort verwendet. \n";
-		}
-
-		if (rows == null)	{
-			error += "Es wurde keine anzuzeigende Spalte angegeben, geben Sie * ein, um alle Spalten ausgeben zu lassen. \n";
-		}
-
-		if (tablename == null)	{
-			error += "Es wurde keine Tabelle angegeben. \n";
-		}
-
-		if (where_condition == null)	{
-			error += "Es wurde keine WHERE Bedingung angegeben. \n";
-		}
-
-		if (sortby == null)	{
-			error += "Es wurde keine Spalte angegeben nach der sortiert werden soll. \n";
-		}
-
-		if (sortdir == "ASC")	{
-			error += "Es wurde die aufsteigende oder gar keine Sortierrichtung angegeben, es wird aufsteigend sortiert. \n";
-		}
-
-		if (seperator == null)	{
-			error += "Es wurde kein Trennzeichen angegeben, es wird ';' als Trennzeichen verwendet. \n";
 		}
 
 		if (output == "output")	{
