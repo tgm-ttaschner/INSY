@@ -1,5 +1,10 @@
 package run;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Map;
 
 import ssteinkellner.connection.ConnectionHandler;
@@ -7,6 +12,8 @@ import ssteinkellner.connection.UserCache;
 //import ssteinkellner.output.DebugWriter;
 import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
+import ssteinkellner.tools.DBTools;
+import ssteinkellner.tools.ListTools;
 
 /**
  *lasse, die alle zur verbindung notwendigen objekte erzeugt und verknuepft, sowie das logfile erstellt
@@ -14,12 +21,16 @@ import ssteinkellner.output.Writer;
  * @version 2015.01.21
  */
 public class Controller {
-	private static Writer output;
+	private static Writer output = new FileWriter("StartupErrorLog.txt");
 	private static ConnectionHandler connectionhandler;
 	private UserCache usercache;
 	
 	public Controller(Map<String, String> arguments){
-		output = new FileWriter(arguments.get("LogFile"));
+		if(arguments.get("output").contains(".")){
+			output = new FileWriter(arguments.get("output"));
+		}else{
+			output = new FileWriter(arguments.get("output")+"txt");
+		}
 //		output = new DebugWriter();
 		
 		usercache = new UserCache();
@@ -35,6 +46,31 @@ public class Controller {
 		 * das passwort aus den arguments zu entfernen, bevor man
 		 * die arguments an das plugin weitergibt (falls es auch welche benoetigt)
 		 */
+		
+		run();
+		System.out.println("test");
+	}
+	
+	private void run(){
+		Connection c = connectionhandler.getConnection();
+		Map<String, String> querys = new HashMap<String, String>();
+		querys.put("tables","SHOW TABLES;");
+		querys.put("fields","SELECT * FROM table_name LIMIT 0;");
+		querys.put("meta","show fields from table_name;");	// fields/keys
+		
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet res = stmt.executeQuery(querys.get("fields").replace("table_name", "film"));
+			
+			System.out.println(ListTools.listToString(DBTools.getTableHead(res)));
+			
+			res.close();
+			stmt.close();
+		} catch (SQLException e) {
+			output.printException(e);
+		}
+		
+		connectionhandler.close();
 	}
 	
 	/**
