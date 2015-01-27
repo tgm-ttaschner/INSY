@@ -7,20 +7,26 @@ package ssteinkellner.output;
  * @version 2014.12.30
  */
 public class DebugWriter implements Writer{
-
+	private Writer writer;
+	
+	public DebugWriter(Writer writer){
+		this.writer = writer;
+	}
+	
+	
 	@Override
 	public void printLine(String text) {
-		System.out.println("[DEBUG]["+getPosition()+"]\t" + text);
+		writer.printLine("["+getPosition()+"]\t" + text);
 	}
 
 	@Override
 	public void printError(String text) {
-		System.err.println("[ERROR]["+getPosition()+"]\t" + text);
+		writer.printError("["+getPosition()+"]\t" + text);
 	}
 
 	@Override
 	public void printException(Exception e) {
-		System.err.println("[EXCEPTION]["+getPosition()+"]");
+		writer.printError("[EXCEPTION]\t["+getPosition()+"]");
 		e.printStackTrace();
 	}
 	

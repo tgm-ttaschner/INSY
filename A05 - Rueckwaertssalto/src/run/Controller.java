@@ -26,12 +26,12 @@ public class Controller {
 	private UserCache usercache;
 	
 	public Controller(Map<String, String> arguments){
-		if(arguments.get("output").contains(".")){
+		if(arguments.get("output").matches("(.*).(txt|csv)(.*)")){
 			output = new FileWriter(arguments.get("output"));
 		}else{
-			output = new FileWriter(arguments.get("output")+"txt");
+			output = new FileWriter(arguments.get("output")+".txt");
 		}
-//		output = new DebugWriter();
+//		output = new DebugWriter(output);
 		
 		usercache = new UserCache();
 		connectionhandler = new ConnectionHandler(usercache);
@@ -48,7 +48,6 @@ public class Controller {
 		 */
 		
 		run();
-		System.out.println("test");
 	}
 	
 	private void run(){
