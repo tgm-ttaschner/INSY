@@ -9,6 +9,7 @@ import java.util.Map;
 
 import ssteinkellner.connection.ConnectionHandler;
 import ssteinkellner.connection.UserCache;
+import ssteinkellner.output.ConsoleWriter;
 //import ssteinkellner.output.DebugWriter;
 import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
@@ -21,15 +22,24 @@ import ssteinkellner.tools.ListTools;
  * @version 2015.01.21
  */
 public class Controller {
-	private static Writer output = new FileWriter("StartupErrorLog.txt");
+	private static String defaultLog = "StartupErrorLog.txt";
+	private static Writer output = new FileWriter(defaultLog);
 	private static ConnectionHandler connectionhandler;
 	private UserCache usercache;
 	
 	public Controller(Map<String, String> arguments){
-		if(arguments.get("output").matches("(.*).(txt|csv)(.*)")){
-			output = new FileWriter(arguments.get("output"));
+		if(arguments.containsKey("output")){
+			if(arguments.get("output").equalsIgnoreCase("console")){
+				output = new ConsoleWriter();
+			}else if(arguments.get("output").matches("(.*).(txt|csv)(.*)")){
+				output = new FileWriter(arguments.get("output"));
+			}else{
+				output = new FileWriter(arguments.get("output")+".txt");
+			}
 		}else{
-			output = new FileWriter(arguments.get("output")+".txt");
+			String temp = "No Filename for output! Tunneling output to "+defaultLog;
+			output.printError(temp);
+			System.err.println(temp);
 		}
 //		output = new DebugWriter(output);
 		
