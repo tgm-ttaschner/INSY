@@ -50,4 +50,13 @@ public class DBTools {
 		
 		return values;
 	}
+	
+	public static List<String> getAllTableHeads(ResultSet resultset) throws SQLException{
+		List<String> values = new LinkedList<String>();
+		ResultSetMetaData rsmd = resultset.getMetaData();
+		
+		
+		
+		return values;
+	}
 }
