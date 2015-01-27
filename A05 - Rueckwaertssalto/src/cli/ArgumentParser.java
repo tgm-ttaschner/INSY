@@ -28,7 +28,7 @@ public class ArgumentParser {
 	@Option(name="-d", required = true)
 	private String database;
 
-	@Option(name="-o")
+	@Option(name="-o", required = true)
 	private String output = "console";
 
 	/**
