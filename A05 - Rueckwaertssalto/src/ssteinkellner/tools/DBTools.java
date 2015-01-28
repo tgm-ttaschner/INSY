@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mysql.jdbc.DatabaseMetaData;
+
 /**
  * eine klasse, die allgemeine tools für das auslesen einer datenbank zur verfügung stellt
  * @author SSteinkellner
@@ -47,15 +49,6 @@ public class DBTools {
 			}
 			values.add(temp);
 		}
-		
-		return values;
-	}
-	
-	public static List<String> getAllTableHeads(ResultSet resultset) throws SQLException{
-		List<String> values = new LinkedList<String>();
-		ResultSetMetaData rsmd = resultset.getMetaData();
-		
-		
 		
 		return values;
 	}
