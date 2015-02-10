@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mysql.jdbc.DatabaseMetaData;
+import ssteinkellner.connection.ConnectionHandler;
 
 /**
  * eine klasse, die allgemeine tools für das auslesen einer datenbank zur verfügung stellt

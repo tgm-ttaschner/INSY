@@ -11,7 +11,9 @@ import run.Controller;
 public class Table {
 	
 	private String tableName;
-	private static String  query = "SELECT COLUMN_NAME, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = ?";
+	private static String  query = "SELECT COLUMN_NAME, COLUMN_KEY, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME"
+			+ " FROM INFORMATION_SCHEMA.COLUMNS NATURAL LEFT OUTER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE"
+			+ " WHERE table_name = ?";
 	
 	private Map<String, Column> columns;
 	
@@ -43,6 +45,10 @@ public class Table {
 				Column spalte = new Column(name);
 				if(rs.getString("COLUMN_KEY").equalsIgnoreCase("PRI")){
 					spalte.setPrimary(true);
+				}
+				
+				if(rs.getString("REFERENCED_TABLE_NAME")!=null){
+					spalte.addForeign(rs.getString("REFERENCED_TABLE_NAME")+"."+rs.getString("REFERENCED_COLUMN_NAME"));
 				}
 				
 //				Controller.getOutput().printLine(spalte.getColumnname() + " ist " +((spalte.isPrimary())?"":"k")+"ein Primary Key.");	//debug

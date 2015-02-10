@@ -14,6 +14,7 @@ import ssteinkellner.output.ConsoleWriter;
 //import ssteinkellner.output.DebugWriter;
 import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
+import db_content.Column;
 import db_content.Table;
 
 /**
@@ -65,6 +66,11 @@ public class Controller {
 	}
 
 	private void run(){
+		run_connection();
+		run_rm();
+	}
+
+	private void run_connection(){
 		/*
 		 * um so wenige gleichzeitige verbindungen wie möglich zu haben,
 		 * werden die tabellennamen zuerst in eine liste geschrieben und erst nacher ausgelesen
@@ -90,6 +96,36 @@ public class Controller {
 		}
 		
 		connectionhandler.close();
+	}
+	
+	private void run_rm() {
+		Writer html = new FileWriter("rm.html");
+		html.printLine("<html><body>");
+		
+		Table table;
+		Column column;
+		String temp_line;
+		for(String tableName : tables.keySet()){
+			table = tables.get(tableName);
+			temp_line = "";
+			for(String ColumnName : table.getColumns().keySet()){
+				column = table.getColumns().get(ColumnName);
+				temp_line += ((!temp_line.isEmpty())?", ":"");
+				temp_line += ((column.isPrimary())?"<u>":"");
+				if(column.isForeign()){
+					temp_line += "<i>";
+					temp_line += column.getForeigns().get(0);
+					temp_line += "</i>";
+				}else{
+					temp_line += column.getColumnname();
+				}
+				temp_line += ((column.isPrimary())?"</u>":"");
+			}
+			html.printLine(tableName+"("+temp_line+")");
+			html.printLine("<br />");
+		}
+
+		html.printLine("</body></html>");
 	}
 	
 	/**
