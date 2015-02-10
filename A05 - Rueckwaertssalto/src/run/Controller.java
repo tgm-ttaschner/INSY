@@ -3,8 +3,9 @@ package run;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import ssteinkellner.connection.ConnectionHandler;
@@ -13,8 +14,7 @@ import ssteinkellner.output.ConsoleWriter;
 //import ssteinkellner.output.DebugWriter;
 import ssteinkellner.output.FileWriter;
 import ssteinkellner.output.Writer;
-import ssteinkellner.tools.DBTools;
-import ssteinkellner.tools.ListTools;
+import db_content.Table;
 
 /**
  *lasse, die alle zur verbindung notwendigen objekte erzeugt und verknuepft, sowie das logfile erstellt
@@ -26,6 +26,8 @@ public class Controller {
 	private static Writer output = new FileWriter(defaultLog);
 	private static ConnectionHandler connectionhandler;
 	private UserCache usercache;
+	
+	private Map<String, Table> tables;
 	
 	public Controller(Map<String, String> arguments){
 		if(arguments.containsKey("output")){
@@ -57,26 +59,34 @@ public class Controller {
 		 * die arguments an das plugin weitergibt (falls es auch welche benoetigt)
 		 */
 		
+		tables = new HashMap<>();
+		
 		run();
 	}
-	
+
 	private void run(){
-		Connection c = connectionhandler.getConnection();
-		Map<String, String> querys = new HashMap<String, String>();
-		querys.put("tables","SHOW TABLES;");
-		querys.put("fields","SELECT * FROM table_name LIMIT 0;");
-		querys.put("meta","show fields from table_name;");	// fields/keys
+		/*
+		 * um so wenige gleichzeitige verbindungen wie möglich zu haben,
+		 * werden die tabellennamen zuerst in eine liste geschrieben und erst nacher ausgelesen
+		 */
+		List<String> tableNames = new LinkedList<String>();
 		
-		try {
-			Statement stmt = c.createStatement();
-			ResultSet res = stmt.executeQuery(querys.get("fields").replace("table_name", "film"));
-			
-			System.out.println(ListTools.listToString(DBTools.getTableHead(res)));
-			
-			res.close();
-			stmt.close();
+		Connection c = connectionhandler.getConnection();
+		
+		try	(
+			ResultSet rs = c.getMetaData().getTables(null, connectionhandler.getDatabase(), null, null);
+		) {
+			while(rs.next()){
+				tableNames.add(rs.getString("TABLE_NAME"));
+			}
+			rs.close();
 		} catch (SQLException e) {
 			output.printException(e);
+			return;
+		}
+		
+		for(String tableName : tableNames){
+			tables.put(tableName, new Table(c, tableName));
 		}
 		
 		connectionhandler.close();
