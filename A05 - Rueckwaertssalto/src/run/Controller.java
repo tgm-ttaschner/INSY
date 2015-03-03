@@ -67,7 +67,13 @@ public class Controller {
 
 	private void run(){
 		run_connection();
-		run_rm();
+		try {
+			run_rm();
+		} catch (SQLException e) {
+			output.printException(e);
+		}
+		
+		connectionhandler.close();
 	}
 
 	private void run_connection(){
@@ -92,14 +98,12 @@ public class Controller {
 		}
 		
 		for(String tableName : tableNames){
-			tables.put(tableName, new Table(c, tableName));
+			tables.put(tableName, new Table(connectionhandler, tableName));
 		}
-		
-		connectionhandler.close();
 	}
 	
-	private void run_rm() {
-		Writer html = new FileWriter("rm.html");
+	private void run_rm() throws SQLException {
+		Writer html = new FileWriter("rm.html", true);
 		html.printLine("<html><body>");
 		
 		Table table;
@@ -114,7 +118,10 @@ public class Controller {
 				temp_line += ((column.isPrimary())?"<u>":"");
 				if(column.isForeign()){
 					temp_line += "<i>";
-					temp_line += column.getForeigns().get(0);
+					temp_line += column.getForeign();
+					if(!column.getForeign().split("\\.")[1].equals(ColumnName)){
+						temp_line += ":"+ColumnName;
+					}
 					temp_line += "</i>";
 				}else{
 					temp_line += column.getColumnname();

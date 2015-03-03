@@ -13,9 +13,15 @@ import java.io.PrintWriter;
 public class FileWriter implements Writer{
 	private File file;
 	
-	
 	public FileWriter(String fileName){
+		this(fileName, false);
+	}
+	
+	public FileWriter(String fileName, boolean clearFile){
 		file = new File(fileName);
+		if(clearFile && file.exists()){
+			file.delete();
+		}
 		if(!file.exists()){
 			try {
 				file.createNewFile();
