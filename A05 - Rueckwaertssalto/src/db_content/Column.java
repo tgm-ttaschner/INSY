@@ -1,26 +1,23 @@
 package db_content;
 
-import java.util.*;
 
 public class Column {
 	
 	private String columnname;
 	
 	private boolean isPrimary;
-	
-	private List<String> foreigns;
+	private String foreign = null;
 	
 	public Column(String columnname)	{
-		foreigns = new ArrayList<String>();
 		this.columnname = columnname;
 	}
 
-	public void addForeign(String reference) {
-		foreigns.add(reference);
+	public void setForeign(String reference) {
+		foreign = reference;
 	}
 
 	public boolean isForeign()	{
-		return (foreigns.size() > 0);
+		return foreign != null;
 	}
 	
 	public String getColumnname() {
@@ -35,8 +32,8 @@ public class Column {
 		this.isPrimary = isPrimary;
 	}
 
-	public List<String> getForeigns() {
-		return foreigns;
+	public String getForeign() {
+		return foreign;
 	}
 
 }
