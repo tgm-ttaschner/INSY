@@ -114,8 +114,9 @@ public class Controller {
 			temp_line = "";
 			for(String ColumnName : table.getColumns().keySet()){
 				column = table.getColumns().get(ColumnName);
-				temp_line += ((!temp_line.isEmpty())?", ":"");
-				temp_line += ((column.isPrimary())?"<u>":"");
+				temp_line += ((!temp_line.isEmpty())?", ":"") + columnToString(column);
+				
+/*				temp_line += ((column.isPrimary())?"<u>":"");
 				if(column.isForeign()){
 					temp_line += "<i>";
 					temp_line += column.getForeign();
@@ -124,15 +125,41 @@ public class Controller {
 					}
 					temp_line += "</i>";
 				}else{
-					temp_line += column.getColumnname();
+					temp_line += column.getColumnName();
 				}
 				temp_line += ((column.isPrimary())?"</u>":"");
+*/
+				
 			}
 			html.printLine(tableName+"("+temp_line+")");
 			html.printLine("<br />");
 		}
 
 		html.printLine("</body></html>");
+	}
+	
+	/**
+	 * this method generates an html string that represents the column
+	 * @param column column that should be represented
+	 * @return column formatted as html
+	 */
+	private String columnToString(Column column){
+		String text;
+		if(column.isForeign()){
+			text = column.getForeign();
+			
+			if(!column.getForeign().split("\\.")[1].equals(column.getColumnName())){
+				text += ":"+column.getColumnName();
+			}
+			
+			text = "<i>"+text+"</i>";
+		}else{
+			text = column.getColumnName();
+		}
+		
+		if(column.isPrimary()){ text = "<u>"+text+"</u>"; }
+		
+		return text;
 	}
 	
 	/**

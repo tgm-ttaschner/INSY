@@ -3,13 +3,13 @@ package db_content;
 
 public class Column {
 	
-	private String columnname;
+	private String columnName;
 	
 	private boolean isPrimary;
 	private String foreign = null;
 	
-	public Column(String columnname)	{
-		this.columnname = columnname;
+	public Column(String columnName)	{
+		this.columnName = columnName;
 	}
 
 	public void setForeign(String reference) {
@@ -20,8 +20,8 @@ public class Column {
 		return foreign != null;
 	}
 	
-	public String getColumnname() {
-		return columnname;
+	public String getColumnName() {
+		return columnName;
 	}
 
 	public boolean isPrimary() {

@@ -26,7 +26,7 @@ public class DebugWriter implements Writer{
 
 	@Override
 	public void printException(Exception e) {
-		writer.printError("[EXCEPTION]\t["+getPosition()+"]");
+		writer.printError("[EXCEPTION]\t["+getPosition()+"]" + e);
 		e.printStackTrace();
 	}
 	
