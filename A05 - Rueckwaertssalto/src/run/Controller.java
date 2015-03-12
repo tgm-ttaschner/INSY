@@ -66,9 +66,10 @@ public class Controller {
 	}
 
 	private void run(){
-		run_connection();
 		try {
+			run_connection();
 			run_rm();
+			run_dot();
 		} catch (SQLException e) {
 			output.printException(e);
 		}
@@ -76,7 +77,7 @@ public class Controller {
 		connectionhandler.close();
 	}
 
-	private void run_connection(){
+	private void run_connection() throws SQLException{
 		/*
 		 * um so wenige gleichzeitige verbindungen wie möglich zu haben,
 		 * werden die tabellennamen zuerst in eine liste geschrieben und erst nacher ausgelesen
@@ -85,17 +86,11 @@ public class Controller {
 		
 		Connection c = connectionhandler.getConnection();
 		
-		try	(
-			ResultSet rs = c.getMetaData().getTables(null, connectionhandler.getDatabase(), null, null);
-		) {
-			while(rs.next()){
-				tableNames.add(rs.getString("TABLE_NAME"));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			output.printException(e);
-			return;
+		ResultSet rs = c.getMetaData().getTables(null, connectionhandler.getDatabase(), null, null);
+		while(rs.next()){
+			tableNames.add(rs.getString("TABLE_NAME"));
 		}
+		rs.close();
 		
 		for(String tableName : tableNames){
 			tables.put(tableName, new Table(connectionhandler, tableName));
@@ -115,21 +110,6 @@ public class Controller {
 			for(String ColumnName : table.getColumns().keySet()){
 				column = table.getColumns().get(ColumnName);
 				temp_line += ((!temp_line.isEmpty())?", ":"") + columnToString(column);
-				
-/*				temp_line += ((column.isPrimary())?"<u>":"");
-				if(column.isForeign()){
-					temp_line += "<i>";
-					temp_line += column.getForeign();
-					if(!column.getForeign().split("\\.")[1].equals(ColumnName)){
-						temp_line += ":"+ColumnName;
-					}
-					temp_line += "</i>";
-				}else{
-					temp_line += column.getColumnName();
-				}
-				temp_line += ((column.isPrimary())?"</u>":"");
-*/
-				
 			}
 			html.printLine(tableName+"("+temp_line+")");
 			html.printLine("<br />");
@@ -160,6 +140,49 @@ public class Controller {
 		if(column.isPrimary()){ text = "<u>"+text+"</u>"; }
 		
 		return text;
+	}
+	
+
+	private void run_dot() throws SQLException	{
+		Table entity;
+		Column attribute;
+
+		String database_name = connectionhandler.getDatabase().toString();
+		
+		Writer dot = new FileWriter(database_name + ".dot", true);
+		dot.printLine("graph " + database_name + " {");
+		dot.printLine("");
+		dot.printLine("");
+		
+		for (int i = 0; i < tables.keySet().size(); i++)	{
+			
+			String entity_name = (String) tables.keySet().toArray()[i];
+			entity = tables.get(entity_name);
+			
+			dot.printLine(entity_name + "[shape=box];");
+			
+			for (int j = 0; j < entity.getColumns().keySet().size(); j++)	{
+				String attibute_name = (String) entity.getColumns().keySet().toArray()[j];
+				
+				attribute = entity.getColumns().get(attibute_name);
+				
+				dot.printLine(entity_name + " -- " + attibute_name + ";");
+				
+				if (attribute.isPrimary())	{
+					dot.printLine(attribute.getColumnName() + "[shape=ellipse, style=filled, color=lightgrey]");
+				}
+				
+				dot.printLine("");
+				
+				dot.printLine("abc_def[shape=diamond, label=\"\"]");
+				
+			}
+			dot.printLine("");
+		}
+		
+		dot.printLine("label = \"" + database_name + "\";");
+		
+		dot.printLine("}");
 	}
 	
 	/**
