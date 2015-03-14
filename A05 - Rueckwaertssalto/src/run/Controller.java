@@ -29,9 +29,9 @@ public class Controller {
 	private static Writer output = new FileWriter(defaultLog);
 	private static ConnectionHandler connectionhandler;
 	private UserCache usercache;
-	
+
 	private Map<String, Table> tables;
-	
+
 	public Controller(Map<String, String> arguments){
 		if(arguments.containsKey("output")){
 			if(arguments.get("output").equalsIgnoreCase("console")){
@@ -46,8 +46,8 @@ public class Controller {
 			output.printError(temp);
 			System.err.println(temp);
 		}
-//		output = new DebugWriter(output);
-		
+		//		output = new DebugWriter(output);
+
 		usercache = new UserCache();
 		connectionhandler = new ConnectionHandler(usercache);
 
@@ -61,9 +61,9 @@ public class Controller {
 		 * das passwort aus den arguments zu entfernen, bevor man
 		 * die arguments an das plugin weitergibt (falls es auch welche benoetigt)
 		 */
-		
+
 		tables = new HashMap<>();
-		
+
 		run();
 	}
 
@@ -75,7 +75,7 @@ public class Controller {
 		} catch (SQLException e) {
 			output.printException(e);
 		}
-		
+
 		connectionhandler.close();
 	}
 
@@ -85,12 +85,12 @@ public class Controller {
 		 * werden die tabellennamen zuerst in eine liste geschrieben und erst nacher ausgelesen
 		 */
 		List<String> tableNames = new LinkedList<String>();
-		
+
 		Connection c = connectionhandler.getConnection();
-		
+
 		try	(
-			ResultSet rs = c.getMetaData().getTables(null, connectionhandler.getDatabase(), null, null);
-		) {
+				ResultSet rs = c.getMetaData().getTables(null, connectionhandler.getDatabase(), null, null);
+				) {
 			while(rs.next()){
 				tableNames.add(rs.getString("TABLE_NAME"));
 			}
@@ -99,16 +99,16 @@ public class Controller {
 			output.printException(e);
 			return;
 		}
-		
+
 		for(String tableName : tableNames){
 			tables.put(tableName, new Table(connectionhandler, tableName));
 		}
 	}
-	
+
 	private void run_rm() throws SQLException {
 		Writer html = new FileWriter("rm.html", true);
 		html.printLine("<html><body>");
-		
+
 		Table table;
 		Column column;
 		String temp_line;
@@ -118,8 +118,8 @@ public class Controller {
 			for(String ColumnName : table.getColumns().keySet()){
 				column = table.getColumns().get(ColumnName);
 				temp_line += ((!temp_line.isEmpty())?", ":"") + columnToString(column);
-				
-/*				temp_line += ((column.isPrimary())?"<u>":"");
+
+				/*				temp_line += ((column.isPrimary())?"<u>":"");
 				if(column.isForeign()){
 					temp_line += "<i>";
 					temp_line += column.getForeign();
@@ -131,8 +131,8 @@ public class Controller {
 					temp_line += column.getColumnName();
 				}
 				temp_line += ((column.isPrimary())?"</u>":"");
-*/
-				
+				 */
+
 			}
 			html.printLine(tableName+"("+temp_line+")");
 			html.printLine("<br />");
@@ -140,57 +140,61 @@ public class Controller {
 
 		html.printLine("</body></html>");
 	}
-	
+
 	private void run_dot() throws SQLException	{
-		
+
 		Table entity;
 		Column attribute;
-		
-		String temp_line;
-		
 		String database_name = connectionhandler.getDatabase().toString();
-		
+
 		Writer dot = new FileWriter(database_name + ".dot", true);
 		dot.printLine("graph " + database_name + " {");
+		//dot.printLine("graph[overlap=false,splines=ortho]");
+		dot.printLine("graph[overlap=false]");
 		dot.printLine("");
 		dot.printLine("");
-		
+
 		for (int i = 0; i < tables.keySet().size(); i++)	{
-			
+
 			String entity_name = (String) tables.keySet().toArray()[i];
 			entity = tables.get(entity_name);
-			
+
 			dot.printLine(entity_name + "[shape=box];");
-			
+
 			for (int j = 0; j < entity.getColumns().keySet().size(); j++)	{
 				String attibute_name = (String) entity.getColumns().keySet().toArray()[j];
-				
 				attribute = entity.getColumns().get(attibute_name);
-				
+
 				if (attribute.isPrimary())	{
-					dot.printLine(attibute_name + entity_name + "[label=<<u>" + attibute_name + "</u>>," + "shape=ellipse, color=grey];");
-					//dot.printLine(attibute_name + entity_name + "--" + entity_name + ";");
+					dot.printLine(entity_name + "_" + attibute_name + "[label=<<u>" + attibute_name + "</u>>," + "shape=ellipse];");
 				} else {
-					dot.printLine(attibute_name + entity_name + "[label=" + attibute_name + "," + "shape=ellipse, color=green];");
+					dot.printLine(entity_name + "_" + attibute_name + "[label=" + attibute_name + "," + "shape=ellipse];");
 				}
-				
-				dot.printLine(attibute_name + entity_name + "--" + entity_name + ";");
-				
+
+				dot.printLine(entity_name + "_" + attibute_name + "--" + entity_name + ";");
 				dot.printLine("");
-				
-				//if (entity.)	{
-					dot.printLine("abc_def[shape=diamond, label=\"\"]");
-				//}
-				
 			}
 			dot.printLine("");
+			dot.printLine("");
 		}
-		
+
+
+		for (int i = 0; i < tables.keySet().size(); i++)	{
+			String entity_name = (String) tables.keySet().toArray()[i];
+			entity = tables.get(entity_name);
+
+			for (int k = 0; k < entity.getForeignKeysAsList().size(); k++) {
+				String relto = entity.getTableRelations().get(k);
+				dot.printLine(relto.split("=")[0] + "_" + relto.split("=")[1] + "[shape=diamond, label=\"\"]");
+				dot.printLine(relto.split("=")[0] + " -- " + relto.split("=")[0] + "_" + relto.split("=")[1] + "[label=\"a\"];");
+				dot.printLine(relto.split("=")[1] + " -- " + relto.split("=")[0] + "_" + relto.split("=")[1] + "[label=\"b\"];");
+			}
+		}
+
 		dot.printLine("label = \"" + database_name + "\";");
-		
 		dot.printLine("}");
 	}
-	
+
 	/**
 	 * this method generates an html string that represents the column
 	 * @param column column that should be represented
@@ -200,21 +204,21 @@ public class Controller {
 		String text;
 		if(column.isForeign()){
 			text = column.getForeign();
-			
+
 			if(!column.getForeign().split("\\.")[1].equals(column.getColumnName())){
 				text += ":"+column.getColumnName();
 			}
-			
+
 			text = "<i>"+text+"</i>";
 		}else{
 			text = column.getColumnName();
 		}
-		
+
 		if(column.isPrimary()){ text = "<u>"+text+"</u>"; }
-		
+
 		return text;
 	}
-	
+
 	/**
 	 * if an output is set, this will be returned. otherwise null
 	 * @return output or null
@@ -222,7 +226,7 @@ public class Controller {
 	public static Writer getOutput(){
 		return output;
 	}
-	
+
 	/**
 	 * closes the connection and exits the program
 	 * @param error errornumber or 0 if correct exit
@@ -231,7 +235,7 @@ public class Controller {
 		connectionhandler.close();
 		System.exit(error);
 	}
-	
+
 	/**
 	 * prints a text to console and then calls {@link #exit() exit}.
 	 * @param text text to be printed
