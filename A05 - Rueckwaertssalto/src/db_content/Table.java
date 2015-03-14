@@ -72,4 +72,28 @@ public class Table {
 
 		return foreigns;
 	}
+	
+	public ArrayList<String> getForeignKeysAsList() throws SQLException	{
+		ArrayList<String> foreigns_list = new ArrayList<String>();
+		ResultSet rs = ch.getConnection().getMetaData().getImportedKeys(null, ch.getDatabase(), this.tableName);
+		
+		while (rs.next())	{
+			foreigns_list.add(rs.getString("FKTABLE_NAME") + "." + rs.getString("FKCOLUMN_NAME") + "=" + rs.getString("PKTABLE_NAME") + "." + rs.getString("PKCOLUMN_NAME"));
+		}
+		
+		return foreigns_list;
+		
+	}
+	
+	public ArrayList<String> getTableRelations() throws SQLException	{
+		ArrayList<String> rel = new ArrayList<String>();
+		ResultSet rs = ch.getConnection().getMetaData().getImportedKeys(null, ch.getDatabase(), this.tableName);
+		
+		while (rs.next())	{
+			rel.add(rs.getString("FKTABLE_NAME") + "=" + rs.getString("PKTABLE_NAME"));
+		}
+		
+		return rel;
+		
+	}
 }
