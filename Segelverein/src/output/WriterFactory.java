@@ -25,11 +25,14 @@ public class WriterFactory {
 	 * Waehlt anhand des Inputs die Art der Ausgabe.
 	 */
 	public Writer chooseWriter(String type, String filename) throws FileNotFoundException {
+		/*
 		switch (type) {
 		case "console":
 			return new ConsoleWriter();
 		default:
 			return new FileWriter(filename);
 		}
+		*/
+		return new ConsoleWriter();
 	}
 }
