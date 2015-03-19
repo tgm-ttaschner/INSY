@@ -6,6 +6,7 @@ import java.util.*;
 
 import cli.ArgumentParser;
 import connection.MySQLConnection;
+import connection.PostgresConnection;
 import output.*;
 import output.Writer;
 import output.format.Process;
@@ -32,7 +33,8 @@ public class Main {
 
 			arguments = parser.getArguments();
 
-			MySQLConnection c = new MySQLConnection(arguments);
+			//MySQLConnection c = new MySQLConnection(arguments);
+			PostgresConnection c = new PostgresConnection(arguments);
 			c.connect();
 			c.query();
 
@@ -48,7 +50,7 @@ public class Main {
 			System.out.println("Es konnte keine Verbindung zur Datenbank hergestellt werden");
 			Main.printHelp();
 		} catch (ClassNotFoundException e)	{
-			System.out.println("Der MySQL JDBC Treiber konnte nicht geladen werden");
+			System.out.println("Der JDBC Treiber konnte nicht geladen werden");
 		} catch (FileNotFoundException e)	{
 			System.out.println("Die Datei konnte nicht an der gegebenen Stelle gefunden werden");
 			Main.printHelp();
