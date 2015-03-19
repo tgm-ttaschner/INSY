@@ -41,8 +41,8 @@ public class ArgumentParser {
 	@Option(name="-f", required = true)
 	private String rows;
 
-	@Option(name="-o")
-	private String output = "console";
+	//@Option(name="-o")
+	//private String output = "console";
 
 	@Option(name="-T", required = true)
 	private String tablename;
@@ -61,8 +61,10 @@ public class ArgumentParser {
 
 			cmdLineParser.parseArgument(args);
 
-			arguments.put("jdbc", "com.mysql.jdbc.Driver");
+			arguments.put("jdbc mysql connector", "com.mysql.jdbc.Driver");
+			arguments.put("jdbc postgresql connector", "org.postgresql.Driver");
 			arguments.put("jdbc mysql", "jdbc:mysql://");
+			arguments.put("jdbc postgresql", "jdbc:postgresql://");
 			arguments.put("hostname", host);
 			arguments.put("database", database);
 			arguments.put("username", username);
@@ -73,7 +75,7 @@ public class ArgumentParser {
 			arguments.put("sort", sortby);
 			arguments.put("sortdir", sortdir);
 			arguments.put("seperator", seperator);
-			arguments.put("output", output);
+			//arguments.put("output", output);
 
 		} catch (CmdLineException e) {
 			printHelp();
@@ -136,10 +138,12 @@ public class ArgumentParser {
 		if (seperator == null)	{
 			error += "Es wurde kein Trennzeichen angegeben, es wird ';' als Trennzeichen verwendet. \n";
 		}
-
+		
+		/*
 		if (output == "output")	{
 			error += "Es wurde die Konsole aös Ausgabemethode definiert oder gar keine, die Ausgabe erfolgt auf der Konsole. \n";
 		}
+		*/
 
 		System.err.println(error);
 	}
