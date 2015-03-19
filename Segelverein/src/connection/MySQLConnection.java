@@ -123,7 +123,7 @@ public class MySQLConnection {
 	 */
 	public void connect() throws SQLException, ClassNotFoundException {
 
-		Class.forName(arguments.get("jdbc"));
+		Class.forName(arguments.get("jdbc mysql connector"));
 
 		connection = DriverManager.getConnection(arguments.get("jdbc mysql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
 	}
