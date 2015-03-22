@@ -1,0 +1,5 @@
+How to start
+-h <host> -u <username> -p <password> -d <database name>
+
+Example:
+-h localhost -u segel -p segel -d muster
