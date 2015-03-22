@@ -11,6 +11,12 @@ import javax.swing.table.*;
 import output.format.Process;
 import connection.PostgresConnection;
 
+/**
+ * @author Thomas Taschner
+ * 
+ * Realisiert eine einfache GUI zum Erstellen, Veraendern und Loeschen von Datenbankeintraegen von gewaehlen Tabellen.
+ *
+ */
 @SuppressWarnings("serial")
 public class Segelverein_GUI extends JFrame implements ActionListener, ItemListener, ListSelectionListener {
 
@@ -30,15 +36,21 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 
 	private boolean isSelected = true;
 
+	/**
+	 * @param c die Datenbankverbindung
+	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
+	 */
 	public Segelverein_GUI(PostgresConnection c) throws SQLException	{
 
 		this.c = c;
-
+		
+		// Durchfuehren einer SELECT * Query zum Fuellen des Tables
 		c.query("*", "boot", null, null, null);
 		this.initTable(c.getColumncount());
 
 		cb_dropdown = new JComboBox<String>();
-
+		
+		// Befuellen der Combobox mit den Tablenamen
 		for (int i = 0; i < box_values.length; i++) {
 			cb_dropdown.addItem(box_values[i]);
 		}
@@ -78,7 +90,7 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		p_all.add(p_tables, BorderLayout.CENTER);
 		p_all.add(p_buttons, BorderLayout.SOUTH);
 
-
+		// Scrollbars nur dann sichtbar, wenn benoetigt
 		sp_content = new JScrollPane(p_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		this.add(sp_content);
@@ -89,6 +101,11 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		this.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * @param columns die Anzahl der Spalten der Tabelle
+	 * 
+	 * Erstellt einen neuen JTable mit einer gewissen Spaltenanzahl
+	 */
 	public void initTable(int columns)	{
 
 		Object[] o = new Object[columns];
@@ -96,7 +113,8 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		for (int i = 0; i < columns; i++)	{
 			o[i] = i + "";
 		}
-
+		
+		// Setzen eines Tablemodels und, dass nur eine Einfachauswahl erfolgen kann
 		dtm = new DefaultTableModel(o, columns);
 		t_data = new JTable(dtm);
 		t_data.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -104,18 +122,30 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		t_data.getSelectionModel().addListSelectionListener(this); 
 	}
 
+	/**
+	 * @param size die Anzahl der Spalten der Tabelle
+	 */
 	public void setTableColumnCount(int size)	{
 		dtm.setColumnCount(size);
 	}
 
+	/**
+	 * Fuegt die Combobox dem Panel hinzu
+	 */
 	public void addComboBox()	{
 		p_combo.add(cb_dropdown, BorderLayout.NORTH);
 	}
 
+	/**
+	 * Fuegt das JTable Objekt dem Panel hinzu
+	 */
 	public void addTables()	{
 		p_tables.add(t_data, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Fuegt die Buttons dem Panel hinzu
+	 */
 	public void addButtons()	{
 		p_buttons.add(b_addCell);
 		p_buttons.add(b_addDB);
@@ -124,24 +154,41 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		p_buttons.add(b_help);
 	}
 
+	/**
+	 * @param data Daten, mit denen die neue Zeile befuellt werden soll
+	 * 
+	 * Erstellt eine neue Zeile und befuellt diese mit Daten.
+	 */
 	public void addJTableRowData(Object[] data)	{
 		dtm.addRow(data);
 	}
 
+	/**
+	 * Erstellt eine neue leere Zeile
+	 */
 	public void addEmptyJTableRow()	{
 		int row_count = t_data.getRowCount();
 		this.refresh();
 		dtm.setRowCount(row_count+1);
 	}
 
+	/**
+	 * Löscht alle Inhalte des Tables
+	 */
 	public void clearJTable()	{		
 		dtm.setRowCount(0);
 	}
 
+	/**
+	 * @return den aktuellen ausgewaehlten Wert der Combobox
+	 */
 	public String getCurrentComboBoxEntry()	{
 		return (String) cb_dropdown.getSelectedItem();
 	}
 
+	/**
+	 * Fuehrt ein SELECT * aus, verarbeitet die Daten und fuellt den JTable mit diesen
+	 */
 	public void refresh()	{
 		try {
 			c.query("*", this.getCurrentComboBoxEntry(), null, null, null);
@@ -159,15 +206,20 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		JButton b = (JButton) e.getSource();
-
+		
+		// Fuege neue leere Zeile hinzu
 		if (b.getName().equals("addCell"))	{
 			this.addEmptyJTableRow();
 		}
-
+		
+		// Hole Werte der aktuellen Zeile, fuehre Checks durch und schicke diese an die Datenbank
 		if (b.getName().equals("addDB"))	{
 			try {
 
@@ -214,7 +266,8 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 				}
 			}
 		}
-
+		
+		// Hole die Werte der aktuellen Zeile, fuehre Checks durch und schicke an die Datenbank
 		if (b.getName().equals("update"))	{
 			
 			String val1 = null;
@@ -258,7 +311,8 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 			
 			this.refresh();
 		}
-
+		
+		// Hole Wert der aktuellen Zeile, loesche, wenn moeglich und schicke an die Datenbank
 		if (b.getName().equals("delete"))	{
 			if (isSelected)	{
 
@@ -298,17 +352,28 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 				JOptionPane.showMessageDialog(null, "Waehlen Sie bitte eine Zeile aus");
 			}
 		}
-
+		
+		// Gibt nicht vorhandene Hilfe aus
 		if (b.getName().equals("help"))	{
 			JOptionPane.showMessageDialog(null, "");
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 * 
+	 * Zeichne den JTable neu, wenn sich der aktuelle Eintrag der Combobox aendert
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		this.refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 * 
+	 * Checke, ob eine Zeile ausgewaehlt wurde und setze den Werte des zuletzt ausgewaehlten Indexes
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 

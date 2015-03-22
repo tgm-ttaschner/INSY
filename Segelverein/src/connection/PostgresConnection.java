@@ -194,11 +194,7 @@ public class PostgresConnection {
 	/**
 	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
 	 * 
-	 * Die Abfrage wird hier zusammengesetzt, ein statement gebildet und an die Datenbank geschickt.
-	 * Das Ergebnis wird in einem ResultSet gespeichert.
-	 * Abschliessend erfolgt noch ein Check, wie viele Spalten im Resultset enthalten sind.
-	 * 
-	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
+	 * Gibt die Zeilenanzahl des ResultSets zurueck.
 	 */
 	public int getResultSetSize(ResultSet rs) throws SQLException	{
 
@@ -212,7 +208,12 @@ public class PostgresConnection {
 
 		return size;
 	}
-
+	
+	/**
+	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
+	 * 
+	 * Gibt alle Spaltennamen fuer einen gegebenen Tabellennamen zurueck.
+	 */
 	public String[] getColumnNames(String tablename) throws SQLException	{
 
 		ResultSetMetaData rsmd = resultSet.getMetaData();

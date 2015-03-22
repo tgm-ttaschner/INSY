@@ -13,8 +13,7 @@ import connection.PostgresConnection;
  * @version 19.01.2015
  * 
  * Die Hauptklasse, in der vom Benutzer die Argumente eingelesen und geparsed werden.
- * Abschliessend wird eine Verbindung zur Datenbank aufgebaut und die Abfrage durchgefuehrt.
- * Nun wird das Ergebnis dieser Abfrage (Resultset) verarbeitet und entsprechend ausgegeben (bzw. geschrieben).
+ * Es erfolgt ein Aufruf der GUI.
  * Abschliessend erfolgt noch ein disconnect von der Datenbank.
  * 
  * Sollte etwas schief laufen, so wird ein entsprechender Hilfetext ausgegeben.
@@ -64,6 +63,7 @@ public class Main {
 			test.refresh();
 			
 			//c.disconnect();
+			// -> Buggt sonst rum
 
 		} catch (SQLException e)	{
 			System.out.println("Es konnte keine Verbindung zur Datenbank hergestellt werden");
