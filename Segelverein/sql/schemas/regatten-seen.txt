@@ -1,0 +1,666 @@
+Lake Superior-Regatta
+Lake Huron-Regatta
+Lake Michigan-Regatta
+Lake Erie-Regatta
+Lake Ontario-Regatta
+Great Salt Lake-Regatta
+Lake of the Woods-Regatta
+Iliamna Lake-Regatta
+Lake Oahe-Regatta
+Lake Okeechobee-Regatta
+Lake Pontchartrain-Regatta
+Lake Sakakawea-Regatta
+Lake Champlain-Regatta
+Becharof Lake-Regatta
+Lake St. Clair-Regatta
+Red Lake-Regatta
+Selawik Lake-Regatta
+Fort Peck Lake-Regatta
+Salton Sea-Regatta
+Rainy Lake-Regatta
+Devils Lake-Regatta
+Toledo Bend Reservoir-Regatta
+Lake Powell-Regatta
+Kentucky Lake-Regatta
+Lake Mead-Regatta
+Naknek Lake-Regatta
+Lake Winnebago-Regatta
+Mille Lacs Lake-Regatta
+Flathead Lake-Regatta
+Lake Tahoe-Regatta
+Pyramid Lake-Regatta
+Sam Rayburn Reservoir-Regatta
+Eufaula Lake-Regatta
+Lake Marion-Regatta
+Leech Lake-Regatta
+Utah Lake-Regatta
+Lake Francis Case-Regatta
+Lake Texoma-Regatta
+Yellowstone Lake-Regatta
+Lake Pend Oreille-Regatta
+Falcon Lake-Regatta
+Lake Livingston-Regatta
+Lake Roosevelt-Regatta
+Lake Clark-Regatta
+Moosehead Lake-Regatta
+Lake Strom Thurmond-Regatta
+Bear Lake-Regatta
+Lake Guntersville-Regatta
+Lake St. Francis-Regatta
+Wheeler Lake-Regatta
+Amistad Lake(man-made)-Regatta
+Klamath Lake-Regatta
+Lake Moultrie-Regatta
+Lake Winnibigoshish-Regatta
+Lake Barkley-Regatta
+Lake Sharpe-Regatta
+American Falls Reservoir-Regatta
+Lake Hartwell-Regatta
+Truman Reservoir-Regatta
+Lake of the Ozarks-Regatta
+Oneida Lake-Regatta
+Lake Cumberland-Regatta
+Kerr Lake-Regatta
+Calcasieu Lake-Regatta
+Lake Murray-Regatta
+Grand Lake o' the Cherokees-Regatta
+Lake Winnipesaukee-Regatta
+Bull Shoals Lake-Regatta
+Walter F. George Lake-Regatta
+Lake Martin-Regatta
+Clear Lake-Regatta
+Robert S. Kerr Lake-Regatta
+Seneca Lake-Regatta
+Pickwick Lake-Regatta
+Table Rock Lake-Regatta
+Cayuga Lake-Regatta
+Flaming Gorge Reservoir-Regatta
+Lake Vermilion-Regatta
+Lake Ouachita-Regatta
+Lake Mattamuskeet-Regatta
+Watts Bar Lake-Regatta
+Lake Wallula-Regatta
+Lake Lanier-Regatta
+Lake Seminole-Regatta
+Lake Tawakoni-Regatta
+Elephant Butte Lake-Regatta
+Chickamauga Lake-Regatta
+Grenada Lake-Regatta
+Lake Kissimmee-Regatta
+Lake Dardanelle-Regatta
+Norris Lake-Regatta
+Canyon Ferry Lake-Regatta
+Lake Chelan-Regatta
+Cedar Creek Lake-Regatta
+Lake Norman-Regatta
+Sardis Lake-Regatta
+Walker Lake-Regatta
+Lake McConaughy-Regatta
+Lake George-Regatta
+Beaver Lake-Regatta
+Great Sacandaga Lake-Regatta
+Lake Athabasca-Regatta
+Beaverhill Lake-Regatta
+Bistcho Lake-Regatta
+Calling Lake-Regatta
+Lake Claire-Regatta
+Cold Lake-Regatta
+Gull Lake-Regatta
+Jackfish Lake-Regatta
+Lac la Biche-Regatta
+Lac Sante-Regatta
+Lake Louise-Regatta
+Lesser Slave Lake-Regatta
+Maligne Lake-Regatta
+Moraine Lake-Regatta
+Pigeon Lake-Regatta
+Primrose Lake-Regatta
+Samyquan Lake-Regatta
+Sylvan Lake-Regatta
+Utikuma Lake-Regatta
+Waterton Lake-Regatta
+Winefred Lake-Regatta
+Wizard Lake-Regatta
+105 Mile Lake-Regatta
+108 Mile Lake-Regatta
+Adams Lake-Regatta
+Alouette Lake-Regatta
+Anderson Lake-Regatta
+Arrow Lakes-Regatta
+Atlin Lake-Regatta
+Bennett Lake-Regatta
+Berg Lake-Regatta
+Babine Lake-Regatta
+Burns Lake-Regatta
+Buttle Lake-Regatta
+Cameron Lake-Regatta
+Capilano Lake-Regatta
+Carpenter Lake-Regatta
+Chilko Lake-Regatta
+Christina Lake-Regatta
+Clearwater Lake-Regatta
+Columbia Lake-Regatta
+Comox Lake-Regatta
+Cowichan Lake-Regatta
+Cultus Lake-Regatta
+Davis Lake-Regatta
+Davis Lake-Regatta
+Decker Lake-Regatta
+Deka Lake-Regatta
+Downton Lake-Regatta
+Duncan Lake-Regatta
+Evans Lake-Regatta
+François Lake-Regatta
+Fuller Lake-Regatta
+Gardom Lake-Regatta
+Garibaldi Lake-Regatta
+Gates Lake-Regatta
+Great Central Lake-Regatta
+Harrison Lake-Regatta
+Kamloops Lake-Regatta
+Kawkawa Lake-Regatta
+Kennedy Lake-Regatta
+Kinbasket Lake-Regatta
+Kootenay Lake-Regatta
+Lac La Hache-Regatta
+Lava Lake-Regatta
+Lillooet Lake-Regatta
+Little Lillooet Lake-Regatta
+Little Shuswap Lake-Regatta
+Mabel Lake-Regatta
+Maltby Lake-Regatta
+Mill Lake-Regatta
+Okanagan Lake-Regatta
+Ootsa Lake-Regatta
+Pavilion Lake-Regatta
+Quesnel Lake-Regatta
+Quamichan Lake-Regatta
+Seton Lake-Regatta
+Shawnigan Lake-Regatta
+Sherbrooke Lake-Regatta
+Shuswap Lake-Regatta
+Slocan Lake-Regatta
+Sulphurous Lake-Regatta
+Sproat Lake-Regatta
+Stuart Lake-Regatta
+Tagish Lake-Regatta
+Tchesinkut Lake-Regatta
+Teslin Lake-Regatta
+Tatlayoko Lake-Regatta
+Volcano Lake-Regatta
+Wahleach Lake-Regatta
+Wasa Lake-Regatta
+Whonnock Lake-Regatta
+Windermere Lake-Regatta
+Williston Lake-Regatta
+Williams Lake-Regatta
+Lake Athapapuskow-Regatta
+Big Island Lake-Regatta
+Bryan Lake-Regatta
+Cedar Lake-Regatta
+Clearwater Lake-Regatta
+Cross Lake-Regatta
+Dauphin Lake-Regatta
+Gods Lake-Regatta
+Granville Lake-Regatta
+Kasmere Lake-Regatta
+Kipahigan Lake-Regatta
+Island Lake-Regatta
+Lynx Lake-Regatta
+Lake Manitoba-Regatta
+Molson Lake-Regatta
+Nao Lake-Regatta
+Nejanalini Lake-Regatta
+Neso Lake-Regatta
+Nisto Lake-Regatta
+Nueltin Lake-Regatta
+Oxford Lake-Regatta
+Payuk Lake-Regatta
+Pekwachnamaykoskwaskwaypinwanik Lake-Regatta
+Pelican Lake-Regatta
+Persian Lake-Regatta
+Playgreen Lake-Regatta
+Putahow Lake-Regatta
+Red Deer Lake-Regatta
+Red Sucker Lake-Regatta
+Reindeer Lake-Regatta
+Schist Lake-Regatta
+Sipiwesk Lake-Regatta
+Southern Indian Lake-Regatta
+Springer Lake-Regatta
+Swan Lake-Regatta
+Toews Lake-Regatta
+Lake Winnipeg-Regatta
+Lake Winnipegosis-Regatta
+Lake of the Woods-Regatta
+West Hawk Lake-Regatta
+Baker Lake-Regatta
+Bolton Lake-Regatta
+Bull Lake-Regatta
+Cassidy lake-Regatta
+Chamcook Lake-Regatta
+Chiputneticook Lakes-Regatta
+Darlings Lake-Regatta
+Digdeguash Lake-Regatta
+East Grand Lake-Regatta
+Lake George-Regatta
+Grand Lake-Regatta
+Gulquac Lake-Regatta
+Harvey Lake-Regatta
+Holmes Lake-Regatta
+Loch Alva-Regatta
+Loch Lomond-Regatta
+Lockhart Lake-Regatta
+Long Lake-Regatta
+Lake Magaguadavic-Regatta
+Maquapit Lake-Regatta
+Miramichi Lake-Regatta
+Nictau Lake-Regatta
+North Renous Lake-Regatta
+Oromocto Lake-Regatta
+Quensel Lake-Regatta
+Scotch Lake-Regatta
+Serpentine Lake-Regatta
+Shogomoc Lake-Regatta
+Sisson Branch Reservoir-Regatta
+Skiff Lake-Regatta
+South Oromocto Lake-Regatta
+Spednic Lake-Regatta
+Trousers Lake-Regatta
+Tuadook Lake-Regatta
+Lac Unique-Regatta
+Lake Utopia-Regatta
+Wauklahegan Lake-Regatta
+Yoho Lake-Regatta
+Ashuanipi Lake-Regatta
+Atikonak Lake-Regatta
+Deer Lake-Regatta
+De Mille Lake-Regatta
+Gander Lake-Regatta
+Grand Lake-Regatta
+Lac Joseph-Regatta
+Lake Melville-Regatta
+Mistastin Lake-Regatta
+Nipishish Lake-Regatta
+Opocopa Lake-Regatta
+Ossokmanuan Lake-Regatta
+Shabogamo Lake-Regatta
+Smallwood Reservoir-Regatta
+Artillery Lake-Regatta
+Aylmer Lake-Regatta
+Blackwater Lake-Regatta
+Boyd Lake-Regatta
+Buffalo Lake-Regatta
+Clinton-Colden Lake-Regatta
+Colville Lake-Regatta
+Faber Lake-Regatta
+Firedrake Lake-Regatta
+Great Bear Lake-Regatta
+Great Slave Lake-Regatta
+Hjalmer Lake-Regatta
+Hottah Lake-Regatta
+Howard Lake-Regatta
+Kakisa Lake-Regatta
+Kasba Lake-Regatta
+Lac Belot-Regatta
+Lac de Gras-Regatta
+Lac des bois-Regatta
+Lac La Martre-Regatta
+Lac Maunoir-Regatta
+Lynx Lake-Regatta
+MacKay Lake-Regatta
+Mosquito Lake-Regatta
+Nonacho Lake-Regatta
+Point Lake-Regatta
+Scott Lake-Regatta
+Selwyn Lake-Regatta
+Sitidyi Lake-Regatta
+Snowbird Lake-Regatta
+Tahiryuak Lake-Regatta
+Tathlina Lake-Regatta
+Trout Lake-Regatta
+Whitefish Lake-Regatta
+Wholdaia Lake-Regatta
+Lake Ainslie-Regatta
+Bras d'Or Lake-Regatta
+Loch Lomond-Regatta
+A Lake-Regatta
+Albro Lake-Regatta
+Anderson Lake-Regatta
+Ash Lake-Regatta
+Lake Banook-Regatta
+Baptizing Lake-Regatta
+Barrett Lake-Regatta
+Bayers Lake-Regatta
+Beaver Lake-Regatta
+Beaverbank Lake-Regatta
+Bell Lake-Regatta
+Big Horseshoe Lake-Regatta
+Birch Cove Lake-Regatta
+Bissett Lake-Regatta
+Blueberry Lake-Regatta
+Bottle Lake-Regatta
+Camphill Lake-Regatta
+Crotched Lake-Regatta
+Charles Lake-Regatta
+Lake Charles-Regatta
+Lake Charlotte-Regatta
+Chocolate Lake-Regatta
+Colpitt Lake-Regatta
+Coxs Lake-Regatta
+Cranberry Lake-Regatta
+Dark Lake-Regatta
+Duck Lake-Regatta
+Feely Lake-Regatta
+Fenerty Lake-Regatta
+First Lake-Regatta
+Flat Lake-Regatta
+Fletcher Lake-Regatta
+Fox Lake-Regatta
+Frenchman Lake-Regatta
+Frog Lake-Regatta
+Golden Lake-Regatta
+Governor Lake-Regatta
+Grand Lake-Regatta
+Halfway Lake-Regatta
+Hamilton Lake-Regatta
+Haunted Lake-Regatta
+Hawkin Hall Lake-Regatta
+Hobsons Lake-Regatta
+Jack Lake-Regatta
+Kearney Lake-Regatta
+Kelly Lake-Regatta
+Kelly Long Lake-Regatta
+Kidston Lake-Regatta
+King Lake-Regatta
+Kinsac Lake-Regatta
+Lewis Lake-Regatta
+Lily Lake-Regatta
+Little Lake-Regatta
+Little Cranberry Lake-Regatta
+Little Grand Lake-Regatta
+Little Grand Lake-Regatta
+Little Pockwock Lake-Regatta
+Lizard Lake-Regatta
+Long Lake-Regatta
+Loon Lake-Regatta
+Lovett Lake-Regatta
+Major Lake-Regatta
+Maple Lake-Regatta
+Marsh Lake-Regatta
+Maynard Lake-Regatta
+McCabe Lake-Regatta
+Lake Mic Mac-Regatta
+Miller Lake-Regatta
+Moon Lake-Regatta
+Morris Lake-Regatta
+Oak Lake-Regatta
+Obrien Lake-Regatta
+Ocean Lake-Regatta
+Otter Lake-Regatta
+Paul Lake-Regatta
+Porters Lake-Regatta
+Perry Lake-Regatta
+Pockwock Lake-Regatta
+Powder Mill Lake-Regatta
+Quarry Lake-Regatta
+Ragged Lake-Regatta
+Rasley Lake-Regatta
+Robertson Lake-Regatta
+Rocky Lake-Regatta
+Russell Lake-Regatta
+Second Lake-Regatta
+Second Chain Lake-Regatta
+Sandy Lake-Regatta
+Settle Lake-Regatta
+Schmidt Lake-Regatta
+Sherbrooke Lake-Regatta
+Shubenacadie Grand Lake-Regatta
+Six Mile Lake-Regatta
+Soldier Lake-Regatta
+Spectacle Lake-Regatta
+Springfield Lake-Regatta
+Square Lake-Regatta
+Sullivan Lake-Regatta
+Sullivan's Pond-Regatta
+Taylor Lake-Regatta
+Lake Thomas-Regatta
+Third Lake-Regatta
+Three Finger Lake-Regatta
+Three Mile Lake-Regatta
+Tomahawk Lake-Regatta
+Topsail Lake-Regatta
+Tucker Lake-Regatta
+Turf Lake-Regatta
+Washmill Lake-Regatta
+Webber Lake-Regatta
+Webber Lake-Regatta
+Lake William-Regatta
+Whites Lake-Regatta
+Williams Lake-Regatta
+Willis Lake-Regatta
+Wilson Lake-Regatta
+Newville Lake-Regatta
+Indian Harbour Lake-Regatta
+Morris Lake-Regatta
+Gaspereau Lake-Regatta
+Lake George-Regatta
+Aylesford Lake-Regatta
+Darlings Lake-Regatta
+Lake Milo-Regatta
+Barrington Lake-Regatta
+Big Mushamush Lake-Regatta
+Great Barren Lake-Regatta
+Great Pubnico Lake-Regatta
+Hog Lake-Regatta
+Jordan Lake-Regatta
+Kejimikujik Lake-Regatta
+Panuke Lake-Regatta
+Lake Rossignol-Regatta
+Sherbrooke Lake-Regatta
+Tobeatic Lake-Regatta
+Aberdeen Lake-Regatta
+Amadjuak Lake-Regatta
+Angikuni Lake-Regatta
+Baker Lake-Regatta
+Bluenose Lake-Regatta
+Contwoyto Lake-Regatta
+Dubawnt Lake-Regatta
+Ennadai Lake-Regatta
+Ferguson Lake-Regatta
+Ferguson Lake-Regatta
+Garry Lake-Regatta
+Hall Lake-Regatta
+Lake Hazen-Regatta
+Henik Lake-Regatta
+Kamilukuak Lake-Regatta
+Kaminak Lake-Regatta
+Kasba Lake-Regatta
+MacAlpine Lake-Regatta
+Maguse Lake-Regatta
+Mallery Lake-Regatta
+Ktulik Lake-Regatta
+Nettilling Lake-Regatta
+Nueltin Lake-Regatta
+Princess Mary Lake-Regatta
+Qamanirjuaq Lake-Regatta
+Tebesjuak Lake-Regatta
+Tehek Lake-Regatta
+Tulemalu Lake-Regatta
+Yathkyed Lake-Regatta
+Lake of Bays-Regatta
+Lake of Bays-Regatta
+Big Trout Lake-Regatta
+Lake Erie-Regatta
+Lake Eugenia-Regatta
+Lake George-Regatta
+Lake Huron-Regatta
+Missisa Lake-Regatta
+Lake Muskoka-Regatta
+Night Hawk Lake-Regatta
+Lake Nipigon-Regatta
+Lake Nipissing-Regatta
+North Caribou Lake-Regatta
+Lake Ontario-Regatta
+Opinicon Lake-Regatta
+Pigeon Lake-Regatta
+Rainy Lake-Regatta
+Rice Lake (Ontario)-Regatta
+Sachigo Lake-Regatta
+Lake St Clair-Regatta
+Lake St. Joseph-Regatta
+Sandy Lake-Regatta
+Sandy Lake-Regatta
+Lake Scugog-Regatta
+Lac Seul-Regatta
+Shibogama Lake-Regatta
+Lake Simcoe-Regatta
+Sturgeon Lake-Regatta
+Lake Superior-Regatta
+Lake Temagami-Regatta
+Trout Lake-Regatta
+Lake Wanapitei-Regatta
+Winisk Lake-Regatta
+Lake of the Woods-Regatta
+Lake Timiskaming-Regatta
+Wunnummin Lake-Regatta
+Lake Abitibi-Regatta
+Bear Lake-Regatta
+Lac Culotte-Regatta
+Lac Beauchamp-Regatta
+Lake Bermen-Regatta
+Lake Bienville-Regatta
+Lac La Blanche-Regatta
+Lac Blue Sea-Regatta
+Lake Burton-Regatta
+Big Cedar Lake-Regatta
+Lake Champlain-Regatta
+Lac Chevreuil-Regatta
+Lac Couture-Regatta
+Lake Dana-Regatta
+Lac a l'Eau-Claire-Regatta
+Lake Evans-Regatta
+Lac aux Feuilles-Regatta
+Lac Grand-Regatta
+Lac Guillaume-Delisle-Regatta
+Julian Lake-Regatta
+Lacs des Loups Marins-Regatta
+Lac Lusk-Regatta
+Lac MacGregor-Regatta
+Lac Magpie-Regatta
+Lac Manitou-Regatta
+Lake Manouane-Regatta
+Lac Meacham-Regatta
+Meech Lake-Regatta
+Lake Minto-Regatta
+Lake Mistassini-Regatta
+Lake Naococane-Regatta
+Lac Nantais-Regatta
+Lac Nichicun-Regatta
+Grand Lac Nominingue-Regatta
+Lake Olga-Regatta
+Lac Opiscotėo-Regatta
+Lac Paradis-Regatta
+Lac Payne-Regatta
+Lac Pemichangan-Regatta
+Lake Péribonca-Regatta
+Lac Phillipe-Regatta
+Lac Pikauba-Regatta
+Pingualuk lake-Regatta
+Pink Lake-Regatta
+Lake Poncheville-Regatta
+Roggan Lake-Regatta
+Lake Saint-Jean-Regatta
+Lake Saint-Louis-Regatta
+Lac Sainte-Marie-Regatta
+Lake Saint Pierre-Regatta
+Lac Sakami-Regatta
+Upper Seal Lake-Regatta
+Lac Simard-Regatta
+Lake Timiskaming-Regatta
+Lake Tremblant-Regatta
+Lake Troilus-Regatta
+Lake of Two Mountains-Regatta
+Lake Verneuil-Regatta
+Lake Wakuach-Regatta
+Lake Waswanipi-Regatta
+Lake Yasinski-Regatta
+Cabonga Reservoir-Regatta
+Caniapiscau Reservoir-Regatta
+Dozois Reservoir-Regatta
+Gouin Reservoir-Regatta
+Manicouagan Reservoir-Regatta
+Pipmuacan Reservoir-Regatta
+Robert-Bourassa Reservoir-Regatta
+Amisk Lake-Regatta
+Lake Athabasca-Regatta
+Beaver Lake-Regatta
+Big Quill Lake-Regatta
+Big Shell Lake-Regatta
+Black Lake-Regatta
+Castlewood Lake-Regatta
+Churchill Lake-Regatta
+Christopher Lake-Regatta
+Close Lake-Regatta
+Cold Lake-Regatta
+Coopers lake-Regatta
+Cowan Lake-Regatta
+Cree Lake-Regatta
+Crooked Lake-Regatta
+Crystal Lake-Regatta
+Cumberland Lake-Regatta
+Echo Lake-Regatta
+Davey Lake-Regatta
+Delaronde Lake-Regatta
+Deschambault Lake-Regatta
+Lake Diefenbaker-Regatta
+Doré Lake-Regatta
+Frobisher Lake-Regatta
+Green Water Lake-Regatta
+Iroquois Lake-Regatta
+Kipahigan Lake-Regatta
+Last Mountain Lake-Regatta
+Little Manitou Lake-Regatta
+Little Quill Lake-Regatta
+Lac La Loche-Regatta
+Lower Foster Lake-Regatta
+Manitou Lake-Regatta
+Margery Lake-Regatta
+Middle Foster Lake-Regatta
+Montreal Lake-Regatta
+Old Wives Lake-Regatta
+Pasquia Lake-Regatta
+Peter Pond Lake-Regatta
+Pinehouse Lake-Regatta
+Lac La Plonge-Regatta
+Primrose Lake-Regatta
+Qu'Appelle Lake-Regatta
+Reindeer Lake-Regatta
+Lac La Ronge-Regatta
+Russel Lake-Regatta
+Scott Lake-Regatta
+Selwyn Lake-Regatta
+Springwater lake-Regatta
+Tazin Lake-Regatta
+Tobin Lake-Regatta
+Turtle Lake-Regatta
+Unknown Lake-Regatta
+Upper Foster Lake-Regatta
+Wollaston Lake-Regatta
+Aishihik Lake-Regatta
+Atlin Lake-Regatta
+Bennett Lake-Regatta
+Dezadeash Lake-Regatta
+Frances Lake-Regatta
+Kluane Lake-Regatta
+Kusawa Lake-Regatta
+Lake Laberge-Regatta
+Marsh Lake-Regatta
+Mayo Lake-Regatta
+Nares Lake-Regatta
+Quiet Lake-Regatta
+Snafu Lake-Regatta
+Tagish Lake-Regatta
+Tarfu Lake-Regatta
+Teslin Lake-Regatta
+Wolf Lake-Regatta

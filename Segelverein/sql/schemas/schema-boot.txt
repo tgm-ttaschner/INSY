@@ -1,0 +1,4 @@
+key,Set,From Fixed List,0,-1,DEFAULT
+name,Human,First Name,True|True
+personen,Numbers,Integer,1|10
+tiefgang,Text,Masked String,99\.99

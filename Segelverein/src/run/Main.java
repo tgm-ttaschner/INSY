@@ -1,16 +1,12 @@
 package run;
 
-import java.io.*;
+import gui.Segelverein_GUI;
+
 import java.sql.SQLException;
 import java.util.*;
 
 import cli.ArgumentParser;
-import connection.MySQLConnection;
 import connection.PostgresConnection;
-import output.*;
-import output.Writer;
-import output.format.Process;
-import utils.EscapeAsterisk;
 
 /**
  * @author Thomas Taschner
@@ -27,38 +23,59 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
+			
+			String rows = "*";
+			
+			/*
+			String host = JOptionPane.showInputDialog("Geben Sie bitte den Host an");
+			String database = JOptionPane.showInputDialog("Geben Sie bitte den Datenbanknamen an");
+			String username = JOptionPane.showInputDialog("Geben Sie bitte den Benutzernamen an");
+			String password = JOptionPane.showInputDialog("Geben Sie bitte das Passwort ein");
+			
+			*/
+			
+			/*
+			String host = "localhost";
+			String database = "muster";
+			String username = "segel";
+			String password = "segel";
+			
 			HashMap<String, String> arguments = new HashMap<String, String>();
 
-			ArgumentParser parser = new ArgumentParser(EscapeAsterisk.cleanup(args));
+			arguments = new HashMap<>();
+			arguments.put("jdbc postgresql connector", "org.postgresql.Driver");
+			arguments.put("jdbc postgresql", "jdbc:postgresql://");
+			arguments.put("hostname", host);
+			arguments.put("database", database);
+			arguments.put("username", username);
+			arguments.put("password", password);
+			//arguments.put("rows", rows);
+			*/
+			ArgumentParser p = new ArgumentParser(args);
 
-			arguments = parser.getArguments();
-
-			//MySQLConnection c = new MySQLConnection(arguments);
-			PostgresConnection c = new PostgresConnection(arguments);
+			PostgresConnection c = new PostgresConnection(p.getArguments());
 			c.connect();
-			c.query();
 
-			Process p = new Process(c.getResultSet(), arguments.get("seperator"));
-
-			WriterFactory wf = new WriterFactory();
-			Writer w = wf.chooseWriter(arguments.get("output"), arguments.get("output") + ".txt");
-			w.write(p.readAll());
-
-			c.disconnect();
+			Segelverein_GUI test = new Segelverein_GUI(c);
+			test.addComboBox();
+			test.addTables();
+			test.addButtons();
+			
+			test.refresh();
+			
+			//c.disconnect();
 
 		} catch (SQLException e)	{
 			System.out.println("Es konnte keine Verbindung zur Datenbank hergestellt werden");
+			e.printStackTrace();
 			Main.printHelp();
 		} catch (ClassNotFoundException e)	{
 			System.out.println("Der JDBC Treiber konnte nicht geladen werden");
-		} catch (FileNotFoundException e)	{
-			System.out.println("Die Datei konnte nicht an der gegebenen Stelle gefunden werden");
-			Main.printHelp();
 		} catch (Exception ex)	{
-			
+
 		}
 	}
-	
+
 	/**
 	 * Gibt alle Schalter und einen kurzen Hilfetext aus.
 	 */

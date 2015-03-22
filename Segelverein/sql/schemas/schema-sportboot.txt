@@ -1,0 +1,2 @@
+id,Numbers,Sequence,1|0|1
+segelflaeche,Text,Masked String,99\.99

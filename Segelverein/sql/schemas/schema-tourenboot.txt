@@ -1,0 +1,2 @@
+id,Numbers,Sequence,1|0|1
+bootsklasse,Set,From File,0,0,D:\TGM\2014-2015\Informationssysteme\Borko_Mike\Segelverein\schemas\tourenboot-klassen.txt

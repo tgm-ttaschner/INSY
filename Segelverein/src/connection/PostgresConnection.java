@@ -3,6 +3,8 @@ package connection;
 import java.sql.*;
 import java.util.HashMap;
 
+import org.postgresql.jdbc4.Jdbc4Connection;
+
 /**
  * @author Thomas Taschner
  * @version 19.01.2015
@@ -125,7 +127,7 @@ public class PostgresConnection {
 
 		Class.forName(arguments.get("jdbc postgresql connector"));
 
-		connection = DriverManager.getConnection(arguments.get("jdbc postgresql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
+		connection = (Jdbc4Connection) DriverManager.getConnection(arguments.get("jdbc postgresql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
 	}
 
 	/**
@@ -137,38 +139,95 @@ public class PostgresConnection {
 	 * 
 	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
 	 */
-	public void query() throws SQLException	{
+
+	public void query(String rows, String table, String condition, String order_condition, String sortdir) throws SQLException	{
 		query = "SELECT ";
 
-		query += arguments.get("rows") + " FROM ";
+		query += rows + " FROM ";
 
-		query += arguments.get("table") + " ";
+		query += table + " ";
 
-		if (arguments.containsKey("where") && arguments.get("where") != null)	{
-			query += "WHERE " + arguments.get("where") + " ";
+		if (condition != null)	{
+			query += "WHERE " + condition + " ";
 		}
 
-		if (arguments.containsKey("sort") && arguments.get("sort") != null)	{
-			query += "ORDER BY " + arguments.get("sort") + " ";
+		if (order_condition != null)	{
+			query += "ORDER BY " + order_condition + " ";
 
-			if (arguments.containsKey("sortdir") && arguments.get("sortdir") != null)	{
-				query += arguments.get("sortdir");
+			if (sortdir != null)	{
+				query += sortdir;
 			}
 		}
 
 		query += ";";
 
-		statement = connection.createStatement();
+		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		resultSet = statement.executeQuery(query);
+
+		if (rows.equals("*"))	{
+			columncount = resultSet.getMetaData().getColumnCount();
+		} else {
+			columncount = rows.split(",").length;
+		}
+	}
+	
+	/**
+	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
+	 * 
+	 * Die Abfrage wird hier zusammengesetzt, ein statement gebildet und an die Datenbank geschickt.
+	 * Das Ergebnis wird in einem ResultSet gespeichert.
+	 * Abschliessend erfolgt noch ein Check, wie viele Spalten im Resultset enthalten sind.
+	 * 
+	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
+	 */
+	public void query(String query) throws SQLException	{
+		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		statement.executeUpdate(query);
 
 		if (arguments.get("rows").equals("*"))	{
 			columncount = resultSet.getMetaData().getColumnCount();
 		} else {
 			columncount = arguments.get("rows").split(",").length;
 		}
+	}
+	
+	/**
+	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
+	 * 
+	 * Die Abfrage wird hier zusammengesetzt, ein statement gebildet und an die Datenbank geschickt.
+	 * Das Ergebnis wird in einem ResultSet gespeichert.
+	 * Abschliessend erfolgt noch ein Check, wie viele Spalten im Resultset enthalten sind.
+	 * 
+	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
+	 */
+	public int getResultSetSize(ResultSet rs) throws SQLException	{
 
-		seperator = arguments.get("seperator");
-		output = arguments.get("output");
+		int size = 0;
+
+		while (rs.next())	{
+			size++;
+		}
+
+		rs.beforeFirst();
+
+		return size;
+	}
+
+	public String[] getColumnNames(String tablename) throws SQLException	{
+
+		ResultSetMetaData rsmd = resultSet.getMetaData();
+
+		String[] columns;
+
+
+		columns = new String[rsmd.getColumnCount()];
+
+		for (int i = 1; i <= rsmd.getColumnCount(); i++)	{
+			columns[i-1] = rsmd.getColumnName(i);
+		}
+
+		return columns;
+
 	}
 
 	/**
