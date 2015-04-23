@@ -1,9 +1,12 @@
 package connection;
 
+import java.net.ConnectException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.postgresql.jdbc4.Jdbc4Connection;
+import org.postgresql.util.PSQLException;
 
 /**
  * @author Thomas Taschner
@@ -121,13 +124,18 @@ public class PostgresConnection {
 	 * @throws ClassNotFoundException wird geworfen, wenn der JDBC MySQL Treiber nicht geladen werden kann
 	 * 
 	 * Laedt den JDBC MySQL Treiber und verbindet sich mit der Datenbank.
+	 * Zusaetzlich wird noch autocommit ausgeschalten.
 	 * Eine entsprechende Exception wird geworfen, sollte etwas schief gehen.
 	 */
-	public void connect() throws SQLException, ClassNotFoundException {
+	public void connect() throws SQLException, ClassNotFoundException, ConnectException, NullPointerException {
 
 		Class.forName(arguments.get("jdbc postgresql connector"));
-
+		try {
 		connection = (Jdbc4Connection) DriverManager.getConnection(arguments.get("jdbc postgresql") + arguments.get("hostname") + "/" + arguments.get("database"), arguments.get("username"), arguments.get("password"));
+		connection.setAutoCommit(false);
+		} catch (PSQLException e)	{
+			
+		}
 	}
 
 	/**
@@ -140,7 +148,7 @@ public class PostgresConnection {
 	 * Sollte keine Verbindung zur Datenbank hergestellt werden können, so wird eine SQLException geworfen.
 	 */
 
-	public void query(String rows, String table, String condition, String order_condition, String sortdir) throws SQLException	{
+	public void selectQuery(String rows, String table, String condition, String order_condition, String sortdir) throws SQLException	{
 		query = "SELECT ";
 
 		query += rows + " FROM ";
@@ -170,7 +178,7 @@ public class PostgresConnection {
 			columncount = rows.split(",").length;
 		}
 	}
-	
+
 	/**
 	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
 	 * 
@@ -182,15 +190,11 @@ public class PostgresConnection {
 	 */
 	public void query(String query) throws SQLException	{
 		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		statement.executeUpdate(query);
+		statement.execute(query);
 
-		if (arguments.get("rows").equals("*"))	{
-			columncount = resultSet.getMetaData().getColumnCount();
-		} else {
-			columncount = arguments.get("rows").split(",").length;
-		}
+		columncount = resultSet.getMetaData().getColumnCount();
 	}
-	
+
 	/**
 	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
 	 * 
@@ -208,7 +212,7 @@ public class PostgresConnection {
 
 		return size;
 	}
-	
+
 	/**
 	 * @throws SQLException wird geworfen, wenn keine Verbindung zur Datenbank hergestellt werden kann
 	 * 
@@ -242,5 +246,21 @@ public class PostgresConnection {
 		resultSet.close();
 		statement.close();
 		connection.close();
+	}
+
+	public ArrayList<String> getTableNames() throws SQLException	{
+
+		ArrayList<String> tables = new ArrayList<String>();
+
+		ResultSet rs = connection.getMetaData().getTables(null, "public", "%", new String[]{"TABLE"});
+
+		while (rs.next())	{
+			//System.out.println(rs.getObject(1) + ", " + rs.getObject(2) + ", " + rs.getObject(3) + ", " + rs.getObject(4) + ", " + rs.getObject(5));
+			//System.out.println(rs.getString(3));
+			tables.add(rs.getString(3));
+		}
+
+		rs.beforeFirst();
+		return tables;
 	}
 }

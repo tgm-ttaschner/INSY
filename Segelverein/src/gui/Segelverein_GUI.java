@@ -18,9 +18,9 @@ import connection.PostgresConnection;
  *
  */
 @SuppressWarnings("serial")
-public class Segelverein_GUI extends JFrame implements ActionListener, ItemListener, ListSelectionListener {
+public class Segelverein_GUI extends JFrame implements ActionListener, ItemListener, ListSelectionListener, WindowListener {
 
-	DefaultTableModel dtm;
+	private DefaultTableModel dtm;
 
 	private JPanel p_combo, p_tables, p_buttons, p_all;
 	private JScrollPane sp_content;
@@ -30,9 +30,12 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 
 	private PostgresConnection c;
 
+
+
 	private int currentRow;
 
 	private String[] box_values = {"boot", "sportboot", "tourenboot", "mannschaft", "wettfahrt"};
+	//private Object[] box_values;
 
 	private boolean isSelected = true;
 
@@ -43,16 +46,18 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 	public Segelverein_GUI(PostgresConnection c) throws SQLException	{
 
 		this.c = c;
-		
+
+		//box_values = c.getTableNames().toArray();
+
 		// Durchfuehren einer SELECT * Query zum Fuellen des Tables
-		c.query("*", "boot", null, null, null);
+		c.selectQuery("*", "boot", null, null, null);
 		this.initTable(c.getColumncount());
 
 		cb_dropdown = new JComboBox<String>();
-		
+
 		// Befuellen der Combobox mit den Tablenamen
 		for (int i = 0; i < box_values.length; i++) {
-			cb_dropdown.addItem(box_values[i]);
+			cb_dropdown.addItem((String) box_values[i]);
 		}
 
 		cb_dropdown.addItemListener(this);
@@ -99,6 +104,7 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		this.setMinimumSize(new Dimension(800, 600));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		this.addWindowListener(this);
 	}
 
 	/**
@@ -113,7 +119,7 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		for (int i = 0; i < columns; i++)	{
 			o[i] = i + "";
 		}
-		
+
 		// Setzen eines Tablemodels und, dass nur eine Einfachauswahl erfolgen kann
 		dtm = new DefaultTableModel(o, columns);
 		t_data = new JTable(dtm);
@@ -191,7 +197,7 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 	 */
 	public void refresh()	{
 		try {
-			c.query("*", this.getCurrentComboBoxEntry(), null, null, null);
+			c.selectQuery("*", this.getCurrentComboBoxEntry(), null, null, null);
 			Process p = new Process(c.getResultSet(), ",");
 
 			this.clearJTable();
@@ -202,7 +208,198 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 			}
 
 		} catch (SQLException e) {
+			System.out.println("Es ist ein Fehler beim Ausfuehren der Query aufgetreten.");
+		}
+	}
 
+	public void addDataBaseEntry()	{
+		try {
+			c.selectQuery("*", this.getCurrentComboBoxEntry(), null, null, null);
+			c.query("BEGIN");
+			if (cb_dropdown.getSelectedItem().equals("boot"))	{
+				try {
+				c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + (c.getResultSetSize(c.getResultSet())+1) + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "', '" + dtm.getValueAt(currentRow, 3).toString().trim() + "');");
+				} catch (NullPointerException e)	{
+					System.err.println("Eines der Felder scheint leer zu sein");
+				}
+			} else {
+
+				if (dtm.getRowCount() == 0)	{
+					//JOptionPane.showMessageDialog(null, "Sie muessen zuerst eine neue Zeile anlegen");
+					System.err.println("Sie muessen zuerst eine neue Zeile anlegen");
+				} else	{
+
+					if (dtm.getColumnCount() == 2)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
+							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "');");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						}
+					}
+
+					if (dtm.getColumnCount() == 3)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
+							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "');");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						}
+					}
+
+					if (dtm.getColumnCount() == 4)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
+							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "', '" + dtm.getValueAt(currentRow, 3).toString().trim() + "');");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						}
+					}
+				}
+			}
+
+			c.query("COMMIT");
+		} catch (SQLException e1) {
+			//JOptionPane.showMessageDialog(null, e1.getMessage());
+			System.err.println(e1.getMessage());
+			try {
+				c.query("ROLLBACK");
+			} catch (Exception e2) {
+				System.out.println("Es ist ein Fehler beim Ausfuehren der Query aufgetreten. Versuchen Sie es erneut.");
+			}
+		}
+	}
+
+	public void updateDataBaseEntry()	{
+		String val1 = null;
+
+		if (!isSelected)	{
+			//JOptionPane.showMessageDialog(null, "Waehlen Sie bitte einen Datensatz zum Aktualisieren aus");
+			System.err.println("Waehlen Sie bitte einen Datensatz zum Aktualisieren aus");
+		}
+
+		try {
+			c.query("BEGIN");
+
+			c.query("SELECT * FROM " + this.getCurrentComboBoxEntry());
+
+			if (dtm.getRowCount() == 0)	{
+				//JOptionPane.showMessageDialog(null, "Sie muessen zuerst eine neue Zeile anlegen");
+				System.err.println("Sie muessen zuerst eine neue Zeile anlegen");
+			} else	{
+
+				if (dtm.getColumnCount() == 2)	{
+					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
+						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
+						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
+						c.query("COMMIT");
+					} else {
+						//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						c.query("ROLLBACK");
+					}
+				}
+
+				if (dtm.getColumnCount() == 3)	{
+					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
+						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
+						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
+						c.query("COMMIT");
+					} else {
+						//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						c.query("ROLLBACK");
+					}
+				}
+
+				if (dtm.getColumnCount() == 4)	{
+					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
+						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
+						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[3] + "='" + dtm.getValueAt(currentRow, 3).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
+						c.query("COMMIT");
+					} else {
+						//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+						c.query("ROLLBACK");
+					}
+				}
+			}
+
+		} catch (SQLException e1) {
+			//JOptionPane.showMessageDialog(null, e1.getMessage());
+			System.err.println(e1.getMessage());
+			try {
+				c.disconnect();
+				c.connect();
+			} catch (Exception e2) {
+				System.out.println("Es ist ein Fehler beim Ausfuehren der Query aufgetreten. Versuchen Sie es erneut.");
+			}
+		}
+
+		this.refresh();
+	}
+
+	public void deleteDataBaseEntry()	{
+		if (isSelected)	{
+
+			try {
+				c.query("BEGIN");
+
+				if (dtm.getRowCount() == 0)	{
+					JOptionPane.showMessageDialog(null, "Sie muessen zuerst eine neue Zeile anlegen");
+					System.err.println("Sie muessen zuerst eine neue Zeile anlegen");
+				} else	{
+
+					if (dtm.getColumnCount() == 2)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
+							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "';");
+							c.query("COMMIT");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							c.query("ROLLBACK");
+						}
+					}
+
+					if (dtm.getColumnCount() == 3)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
+							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "';");
+							c.query("COMMIT");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							c.query("ROLLBACK");
+						}
+					}
+
+					if (dtm.getColumnCount() == 4)	{
+						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
+							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[3] + "='" + dtm.getValueAt(currentRow, 3).toString().trim() + "';");
+							c.query("COMMIT");
+						} else {
+							//JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							System.err.println("Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
+							c.query("ROLLBACK");
+						}
+					}
+					dtm.removeRow(currentRow);
+				}
+
+			} catch (SQLException e1) {
+				//JOptionPane.showMessageDialog(null, e1.getMessage());
+				System.err.println(e1.getMessage());
+				try {
+					c.disconnect();
+					c.connect();
+				} catch (Exception e2) {
+					System.out.println("Es ist ein Fehler beim Ausfuehren der Query aufgetreten. Versuchen Sie es erneut.");
+				}
+			}
+
+			this.refresh();
+		} else	{
+			//JOptionPane.showMessageDialog(null, "Waehlen Sie bitte eine Zeile aus");
+			System.err.println("Waehlen Sie bitte eine Zeile aus");
 		}
 	}
 
@@ -213,146 +410,27 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 	public void actionPerformed(ActionEvent e) {
 
 		JButton b = (JButton) e.getSource();
-		
+
 		// Fuege neue leere Zeile hinzu
 		if (b.getName().equals("addCell"))	{
 			this.addEmptyJTableRow();
 		}
-		
+
 		// Hole Werte der aktuellen Zeile, fuehre Checks durch und schicke diese an die Datenbank
 		if (b.getName().equals("addDB"))	{
-			try {
-
-				c.query("*", this.getCurrentComboBoxEntry(), null, null, null);
-
-				c.query("BEGIN");
-
-				if (cb_dropdown.getSelectedIndex() == 0)	{
-					c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + (c.getResultSetSize(c.getResultSet())+1) + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "', '" + dtm.getValueAt(currentRow, 3).toString().trim() + "');");
-				} else {
-
-					if (dtm.getColumnCount() == 2)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
-							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "');");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-
-					if (dtm.getColumnCount() == 3)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
-							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "');");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-
-					if (dtm.getColumnCount() == 4)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
-							c.query("INSERT INTO " + this.getCurrentComboBoxEntry() + " VALUES ('" + dtm.getValueAt(currentRow, 0).toString().trim() + "', '" + dtm.getValueAt(currentRow, 1).toString().trim() + "', '" + dtm.getValueAt(currentRow, 2).toString().trim() + "', '" + dtm.getValueAt(currentRow, 3).toString().trim() + "');");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-				}
-
-				c.query("COMMIT");
-			} catch (SQLException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage());
-				try {
-					c.query("ROLLBACK");
-				} catch (SQLException e2) {
-
-				}
-			}
+			this.addDataBaseEntry();
 		}
-		
+
 		// Hole die Werte der aktuellen Zeile, fuehre Checks durch und schicke an die Datenbank
 		if (b.getName().equals("update"))	{
-			
-			String val1 = null;
-			
-			if (!isSelected)	{
-				JOptionPane.showMessageDialog(null, "Waehlen Sie bitte einen Datensatz zum Aktualisieren aus");
-			}
-			
-			try {
-
-				if (dtm.getColumnCount() == 2)	{
-					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
-						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
-						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
-					} else {
-						JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-					}
-				}
-
-				if (dtm.getColumnCount() == 3)	{
-					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
-						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
-						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
-					} else {
-						JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-					}
-				}
-
-				if (dtm.getColumnCount() == 4)	{
-					if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
-						val1 = dtm.getValueAt(currentRow, 0).toString().trim();
-						c.query("UPDATE " + this.getCurrentComboBoxEntry() + " SET " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "', " + c.getColumnNames(this.getCurrentComboBoxEntry())[3] + "='" + dtm.getValueAt(currentRow, 3).toString().trim() + "' WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + val1 + "';");
-					} else {
-						JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-					}
-				}
-
-			} catch (SQLException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage());
-			}
-			
-			this.refresh();
+			this.updateDataBaseEntry();
 		}
-		
+
 		// Hole Wert der aktuellen Zeile, loesche, wenn moeglich und schicke an die Datenbank
 		if (b.getName().equals("delete"))	{
-			if (isSelected)	{
-
-				try {
-
-					if (dtm.getColumnCount() == 2)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null)	{
-							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "';");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-
-					if (dtm.getColumnCount() == 3)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null)	{
-							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "';");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-
-					if (dtm.getColumnCount() == 4)	{
-						if (dtm.getValueAt(currentRow, 0) != null && dtm.getValueAt(currentRow, 1) != null && dtm.getValueAt(currentRow, 2) != null && dtm.getValueAt(currentRow, 3) != null)	{
-							c.query("DELETE FROM " + this.getCurrentComboBoxEntry() + " WHERE " + c.getColumnNames(this.getCurrentComboBoxEntry())[0] + "='" + dtm.getValueAt(currentRow, 0).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[1] + "='" + dtm.getValueAt(currentRow, 1).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[2] + "='" + dtm.getValueAt(currentRow, 2).toString().trim() + "' AND " + c.getColumnNames(this.getCurrentComboBoxEntry())[3] + "='" + dtm.getValueAt(currentRow, 3).toString().trim() + "';");
-						} else {
-							JOptionPane.showMessageDialog(null, "Eines der Textfelder scheint leer zu sein, bitte vergewissern Sie sich, dass jedes Textfeld befuellt wurde");
-						}
-					}
-
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage());
-				}
-
-				dtm.removeRow(currentRow);
-				this.refresh();
-			} else	{
-				JOptionPane.showMessageDialog(null, "Waehlen Sie bitte eine Zeile aus");
-			}
+			this.deleteDataBaseEntry();
 		}
-		
+
 		// Gibt nicht vorhandene Hilfe aus
 		if (b.getName().equals("help"))	{
 			JOptionPane.showMessageDialog(null, "");
@@ -383,4 +461,31 @@ public class Segelverein_GUI extends JFrame implements ActionListener, ItemListe
 		currentRow = e.getLastIndex();
 
 	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		try {
+			c.disconnect();
+		} catch (SQLException e1) {
+			System.out.println("Beim Versuch die Verbindung zur Datenbank zu schliessen, ist ein Fehler aufgetreten.");
+		}
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
 }

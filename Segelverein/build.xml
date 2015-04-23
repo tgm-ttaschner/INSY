@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+	Dateiname: 	build.xml
+	Zweck: 		Kompiliert, testet, erstellt eine Dokumentation und fuehrt eine 'Hallo Welt' Ausgabe aus.
+				Das Ergebnis dieses Vorganges wird in eine ausfuehrbare JAR Datei gepackt und auf einen Webserver kopiert.
+	
+	Autor:		Thomas Taschner
+	Datum:		16.04.2015
+-->
+
+<project name="Segelverein" basedir="." default="main">
+
+	<!-- Setzen der property name Variablen -->
+	<property name="source.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="jar.name" value="${ant.project.name}.jar" />
+	<property name="doc.dir" value="doc" />
+	<property name="junit.report.dir" value="testreport" />
+	<property name="lib.dir" value="lib" />
+
+
+	<!-- Hinzufuegen von JUnit zum Classpath -->
+	<path id="lib.libraryclasspath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
+
+	<!-- Hinzufuegen von JUnit und build/classes zu Hello.classpath -->
+	<path id="Segelverein.classpath">
+		<pathelement location="${classes.dir}" />
+		<path refid="lib.libraryclasspath" />
+	</path>
+
+	<!-- Aufrauumen -->
+	<target name="clean">
+		<delete dir="${junit.report.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- Generieren von JavaDoc -->
+	<target name="doc">
+		<mkdir dir="${doc.dir}" />
+		<javadoc sourcepath="${source.dir}" destdir="${doc.dir}" classpathref="Segelverein.classpath" />
+	</target>
+
+	<!-- Kompilieren aller Klassen in src -->
+	<target name="compile" depends="clean">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${source.dir}" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="lib.libraryclasspath" />
+		</javac>
+	</target>
+
+
+	<target name="set_rsrc_classpath">
+		<path id="build.classpath">
+			<fileset dir="${basedir}">
+				<include name="${lib.dir}/*.jar" />
+			</fileset>
+		</path>
+
+		<pathconvert property="manifest.classpath" pathsep=" ">
+			<path refid="build.classpath" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*.jar" to="${lib.dir}/*.jar" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+	</target>
+
+
+	<!-- 
+		Erstellen einer ausfuehrbaren Java Archivs,
+		welches alle Klassen (inkl. Quellcode) und die Javadoc aller Klassen
+		und des Testergebnisses enthaelt
+	-->
+	<target name="jar" depends="compile, test, doc, set_rsrc_classpath">
+		<mkdir dir="${jar.dir}" />
+		<jar destfile="${jar.dir}/${jar.name}" basedir="${classes.dir}">
+
+			<fileset dir="." includes="${doc.dir}/**" />
+			<fileset dir="." includes="${junit.report.dir}/**" />
+			<fileset dir="${source.dir}" includes="**/*.java" />
+			<fileset dir="." includes="${lib.dir}/**" />
+
+			<zipfileset src="${lib.dir}/jar-in-jar-loader.zip" />
+
+			<manifest>
+				<attribute name="Class-Path" value="." />
+				<attribute name="Rsrc-Main-Class" value="run.Main" />
+				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader" />
+				<attribute name="Rsrc-Class-Path" value="./ ${manifest.classpath}" />
+			</manifest>
+		</jar>
+
+		<echo message="${manifest.classpath}" />
+	</target>
+
+	<!-- Generieren der Testergebnisse in Javadoc und XML Form -->
+	<target name="junitreport" depends="unittest">
+		<mkdir dir="${junit.report.dir}" />
+		<junitreport todir="${junit.report.dir}">
+			<fileset dir="${junit.report.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.report.dir}" />
+		</junitreport>
+	</target>
+
+	<!-- Ausfuehren von JUnit, testen des Programms -->
+	<target name="unittest" depends="compile">
+		<mkdir dir="${junit.report.dir}" />
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<test name="test.HelloTest" todir="${junit.report.dir}" />
+			<classpath refid="lib.libraryclasspath" />
+		</junit>
+	</target>
+
+	<!-- Fuehrt die 'targets' aus, die fuer das Ausfuehren von JUnit und die Generierung des Testberichts zustaendig sind -->
+	<target name="test" depends="unittest, junitreport" />
+
+	<!-- Fuehrt das 'target' aus, das fuer die Generierung des JAR Files zustaendig ist -->
+	<target name="run" depends="jar">
+		<java jar="${jar.dir}/${ant.project.name}.jar" fork="true" />
+	</target>
+
+	<!-- Fuehrt das 'run' target aus -->
+	<target name="main" depends="run" />
+
+</project>
